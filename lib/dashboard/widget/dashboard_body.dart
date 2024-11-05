@@ -79,29 +79,45 @@ class _DashboardBodyState extends State<DashboardBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Manage Dashboards')),
-      body: ListView.builder(
-        itemCount: dashboards.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(dashboards[index].name),
-            subtitle: Text(dashboards[index].codename),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () => _editDashboard(dashboards[index]),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () => _deleteDashboard(dashboards[index]),
-                ),
-              ],
-            ),
-          );
-        },
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: const Text(
+          'Manage Dashboards',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
+      body: dashboards.isEmpty
+          ? const Center(
+              child: Text(
+                'There are no dashboards data yet.',
+                style: TextStyle(fontSize: 18),
+              ),
+            )
+          : ListView.builder(
+              itemCount: dashboards.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(dashboards[index].name),
+                  subtitle: Text(dashboards[index].codename),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () => _editDashboard(dashboards[index]),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () => _deleteDashboard(dashboards[index]),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addDashboard,
         child: const Icon(Icons.add),

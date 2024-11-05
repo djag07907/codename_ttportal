@@ -1,4 +1,5 @@
 class User {
+  final String username;
   final String id;
   final String email;
   final String password;
@@ -6,6 +7,7 @@ class User {
   final List<String> assignedDashboardIds;
 
   User({
+    required this.username,
     required this.id,
     required this.email,
     required this.password,
@@ -15,6 +17,7 @@ class User {
 
   Map<String, dynamic> toJson() {
     return {
+      'username': username,
       'id': id,
       'email': email,
       'password': password,
@@ -25,6 +28,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
+      username: json['username'],
       id: json['id'],
       email: json['email'],
       password: json['password'],

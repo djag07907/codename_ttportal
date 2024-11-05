@@ -20,6 +20,7 @@ class UserDialog extends StatefulWidget {
 
 class _UserDialogState extends State<UserDialog> {
   final _formKey = GlobalKey<FormState>();
+  late String username;
   late String email;
   late String password;
   late bool isAdmin;
@@ -28,6 +29,7 @@ class _UserDialogState extends State<UserDialog> {
   @override
   void initState() {
     super.initState();
+    username = widget.user?.username ?? '';
     email = widget.user?.email ?? '';
     password = widget.user?.password ?? '';
     isAdmin = widget.user?.isAdmin ?? false;
@@ -43,29 +45,50 @@ class _UserDialogState extends State<UserDialog> {
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
+                initialValue: username,
+                decoration: const InputDecoration(
+                  labelText: 'Username',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) =>
+                    value!.isEmpty ? 'Please enter a name' : null,
+                onSaved: (value) => username = value!,
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
                 initialValue: email,
-                decoration: const InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                ),
                 validator: (value) =>
                     value!.isEmpty ? 'Please enter an email' : null,
                 onSaved: (value) => email = value!,
               ),
+              const SizedBox(height: 16),
               TextFormField(
                 initialValue: password,
-                decoration: const InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                ),
                 obscureText: true,
                 validator: (value) =>
                     value!.isEmpty ? 'Please enter a password' : null,
                 onSaved: (value) => password = value!,
               ),
-              CheckboxListTile(
+              const SizedBox(height: 16),
+              SwitchListTile(
                 title: const Text('Admin'),
                 value: isAdmin,
-                onChanged: (value) => setState(() => isAdmin = value!),
+                onChanged: (value) => setState(() => isAdmin = value),
               ),
-              const SizedBox(height: 10),
-              const Text('Assigned Dashboards:'),
+              const SizedBox(height: 16),
+              const Text('Assigned Dashboards:',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               ...widget.availableDashboards.map((dashboard) {
                 return CheckboxListTile(
                   title: Text(dashboard.name),
@@ -95,6 +118,7 @@ class _UserDialogState extends State<UserDialog> {
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
               final user = User(
+                username: username,
                 id: widget.user?.id ?? DateTime.now().toString(),
                 email: email,
                 password: password,

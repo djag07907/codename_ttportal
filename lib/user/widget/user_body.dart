@@ -92,46 +92,60 @@ class _UserBodyState extends State<UserBody> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User Management'),
+        backgroundColor: Colors.transparent,
+        title: const Text(
+          'Management Users',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
-      body: ListView.builder(
-        itemCount: users.length,
-        itemBuilder: (context, index) {
-          final user = users[index];
-          final assignedDashboards = dashboards
-              .where((d) => user.assignedDashboardIds.contains(d.id))
-              .toList();
-          return ExpansionTile(
-            title: Text(user.email),
-            subtitle: Text(user.isAdmin ? 'Admin' : 'Regular User'),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () => _editUser(user),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () => _deleteUser(user),
-                ),
-              ],
-            ),
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Assigned Dashboards:'),
-                    ...assignedDashboards.map((d) => Text('- ${d.name}')),
-                  ],
-                ),
+      body: users.isEmpty
+          ? const Center(
+              child: Text(
+                'There is no users data yet.',
+                style: TextStyle(fontSize: 18),
               ),
-            ],
-          );
-        },
-      ),
+            )
+          : ListView.builder(
+              itemCount: users.length,
+              itemBuilder: (context, index) {
+                final user = users[index];
+                final assignedDashboards = dashboards
+                    .where((d) => user.assignedDashboardIds.contains(d.id))
+                    .toList();
+                return ExpansionTile(
+                  title: Text(user.email),
+                  subtitle: Text(user.isAdmin ? 'Admin' : 'Regular User'),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () => _editUser(user),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () => _deleteUser(user),
+                      ),
+                    ],
+                  ),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Assigned Dashboards:'),
+                          ...assignedDashboards.map((d) => Text('- ${d.name}')),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addUser,
         child: const Icon(Icons.add),

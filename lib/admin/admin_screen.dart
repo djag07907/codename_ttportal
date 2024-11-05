@@ -2,10 +2,12 @@ import 'package:codename_ttportal/admin/widget/admin_body.dart';
 import 'package:flutter/material.dart';
 
 class AdminScreen extends StatelessWidget {
-  const AdminScreen({super.key});
+  final String userName;
+
+  const AdminScreen({super.key, required this.userName});
 
   @override
   Widget build(BuildContext context) {
-    return AdminBody();
+    return AdminBody(userName: userName);
   }
 }

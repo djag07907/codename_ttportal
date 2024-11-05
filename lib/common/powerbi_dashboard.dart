@@ -36,8 +36,13 @@ class _PowerBIDashboardState extends State<PowerBIDashboard> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.dashboard.name),
+        backgroundColor: Colors.blue[900],
       ),
-      body: HtmlElementView(viewType: viewId),
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: HtmlElementView(viewType: viewId),
+      ),
     );
   }
 }

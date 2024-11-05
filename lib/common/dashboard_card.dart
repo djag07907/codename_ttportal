@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:codename_ttportal/common/powerbi_dashboard.dart';
 import 'package:codename_ttportal/dashboard/model/dashboard_model.dart';
-import 'package:flutter/material.dart';
 
 class DashboardCard extends StatelessWidget {
   final Dashboard dashboard;
@@ -13,6 +13,10 @@ class DashboardCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -22,11 +26,32 @@ class DashboardCard extends StatelessWidget {
             ),
           );
         },
-        child: Column(
-          children: [
-            Text(dashboard.name),
-            Text(dashboard.codename),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.dashboard, size: 48, color: Colors.blue[900]),
+              const SizedBox(height: 8),
+              Text(
+                dashboard.name,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                dashboard.codename,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[600],
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -5,7 +5,7 @@ import 'package:codename_ttportal/user/model/user_model.dart';
 import 'package:flutter/material.dart';
 
 class LoginBody extends StatefulWidget {
-  LoginBody({super.key});
+  const LoginBody({super.key});
 
   @override
   _LoginBodyState createState() => _LoginBodyState();
@@ -22,213 +22,223 @@ class _LoginBodyState extends State<LoginBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF5F6F9),
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                children: [
-                  SizedBox(height: constraints.maxHeight * 0.1),
-                  Image.network(
-                    "https://i.postimg.cc/nz0YBQcH/Logo-light.png",
-                    height: 100,
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/logo.png',
+                  height: 80,
+                ),
+                const SizedBox(height: 32),
+                Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  SizedBox(height: constraints.maxHeight * 0.1),
-                  Text(
-                    "Sign In",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: constraints.maxHeight * 0.05),
-                  Form(
-                    key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        TextFormField(
-                          controller: _emailController,
-                          decoration: const InputDecoration(
-                            hintText: 'Email',
-                            filled: true,
-                            fillColor: Color(0xFFF5FCF9),
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 16.0 * 1.5, vertical: 16.0),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.emailAddress,
-                          onSaved: (email) {},
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: TextFormField(
-                            obscureText: _obscurePassword,
-                            keyboardType: TextInputType.visiblePassword,
-                            decoration: InputDecoration(
-                              hintText: 'Password',
-                              filled: true,
-                              fillColor: const Color(0xFFF5FCF9),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0 * 1.5, vertical: 16.0),
-                              border: const OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50)),
+                        Text(
+                          "Welcome!",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFF2C37C6),
                               ),
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _obscurePassword
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    _obscurePassword = !_obscurePassword;
-                                  });
-                                },
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 15),
+                        // Text(
+                        //   "Please sign in to continue",
+                        //   style:
+                        //       Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        //             color: Colors.grey[600],
+                        //           ),
+                        //   textAlign: TextAlign.center,
+                        // ),
+                        const SizedBox(height: 32),
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              _buildTextField(
+                                controller: _emailController,
+                                label: 'Email',
+                                icon: Icons.email_outlined,
                               ),
-                            ),
-                            controller: _passwordController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your password';
-                              }
-                              if (value.length < 8) {
-                                return 'Password must be at least 8 characters long';
-                              }
-                              if (!value.contains(RegExp(r'[A-Z]'))) {
-                                return 'Password must contain at least one uppercase letter';
-                              }
-                              if (!value.contains(RegExp(r'[a-z]'))) {
-                                return 'Password must contain at least one lowercase letter';
-                              }
-                              if (!value.contains(RegExp(r'[0-9]'))) {
-                                return 'Password must contain at least one number';
-                              }
-                              return null;
-                            },
-                            onSaved: (password) {},
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              String email = _emailController.text;
-                              String password = _passwordController.text;
-
-                              if (email == "daniel.alvarez@soas.com" &&
-                                  password == "So452024#") {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const AdminScreen(),
-                                  ),
-                                );
-                              } else {
-                                List<User> users =
-                                    await _storageService.getUsers();
-                                User? user = users.firstWhere(
-                                  (u) =>
-                                      u.email == email &&
-                                      u.password == password,
-                                  orElse: () => User(
-                                    id: '',
-                                    email: '',
-                                    password: '',
-                                  ),
-                                );
-
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        HomeScreen(user: user),
-                                  ),
-                                );
-                              }
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            backgroundColor: const Color(0xFF00BF6D),
-                            foregroundColor: Colors.white,
-                            minimumSize: const Size(double.infinity, 48),
-                            shape: const StadiumBorder(),
-                          ),
-                          child: const Text("Sign in"),
-                        ),
-                        if (_errorMessage != null)
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: Text(
-                              _errorMessage!,
-                              style: const TextStyle(
-                                color: Colors.red,
+                              const SizedBox(height: 16),
+                              _buildTextField(
+                                controller: _passwordController,
+                                label: 'Password',
+                                icon: Icons.lock_outline,
+                                isPassword: true,
                               ),
-                            ),
-                          ),
-                        const SizedBox(height: 16.0),
-                        TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Forgot Password?',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .color!
-                                      .withOpacity(0.64),
+                              const SizedBox(height: 24),
+                              ElevatedButton(
+                                onPressed: _handleSignIn,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF2C37C6),
+                                  foregroundColor: Colors.white,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  elevation: 0,
                                 ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: Text.rich(
-                            const TextSpan(
-                              text: "Don’t have an account? ",
-                              children: [
-                                TextSpan(
-                                  text: "Sign Up",
-                                  style: TextStyle(color: Color(0xFF00BF6D)),
+                                child: const Text(
+                                  "Sign in",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ],
-                            ),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .color!
-                                      .withOpacity(0.64),
+                              ),
+                              if (_errorMessage != null)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 16.0),
+                                  child: Text(
+                                    _errorMessage!,
+                                    style: const TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
+                              const SizedBox(height: 16),
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text(
+                                  'Forgot Password?',
+                                  style: TextStyle(
+                                    color: Color(0xFF2C37C6),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
-            );
-          },
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    bool isPassword = false,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: TextFormField(
+        controller: controller,
+        obscureText: isPassword ? _obscurePassword : false,
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: TextStyle(color: Colors.grey[600]),
+          prefixIcon: Icon(icon, color: const Color(0xFF2C37C6)),
+          suffixIcon: isPassword
+              ? IconButton(
+                  icon: Icon(
+                    _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                    color: Colors.grey[600],
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscurePassword = !_obscurePassword;
+                    });
+                  },
+                )
+              : null,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: Colors.grey[100],
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+        ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter your ${label.toLowerCase()}';
+          }
+          if (isPassword) {
+            if (value.length < 8) {
+              return 'Password must be at least 8 characters long';
+            }
+            if (!value.contains(RegExp(r'[A-Z]'))) {
+              return 'Password must contain at least one uppercase letter';
+            }
+            if (!value.contains(RegExp(r'[a-z]'))) {
+              return 'Password must contain at least one lowercase letter';
+            }
+            if (!value.contains(RegExp(r'[0-9]'))) {
+              return 'Password must contain at least one number';
+            }
+          }
+          return null;
+        },
+      ),
+    );
+  }
+
+  void _handleSignIn() async {
+    if (_formKey.currentState!.validate()) {
+      String email = _emailController.text;
+      String password = _passwordController.text;
+
+      if (email == "daniel.alvarez@soas.com" && password == "So452024#") {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AdminScreen(
+              userName: "Admin User",
+            ),
+          ),
+        );
+      } else {
+        List<User> users = await _storageService.getUsers();
+        User? user = users.firstWhere(
+          (u) => u.email == email && u.password == password,
+          orElse: () => User(id: '', username: '', email: '', password: ''),
+        );
+
+        if (user.id.isNotEmpty) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(user: user),
+            ),
+          );
+        } else {
+          setState(() {
+            _errorMessage = "Invalid email or password";
+          });
+        }
+      }
+    }
   }
 }
