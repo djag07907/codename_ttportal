@@ -1,5 +1,5 @@
 import 'package:codename_ttportal/home/widget/home_body.dart';
-import 'package:codename_ttportal/user/model/user_model.dart';
+import 'package:codename_ttportal/login/model/user.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {

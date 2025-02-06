@@ -1,4 +1,5 @@
 import 'package:codename_ttportal/common/bloc/base_state.dart';
+import 'package:codename_ttportal/login/model/user.dart';
 
 sealed class LoginState extends BaseState {}
 
@@ -7,19 +8,15 @@ final class LoginInitial extends LoginState {}
 final class LoginInProgress extends LoginState {}
 
 final class LoginSuccess extends LoginState {
-  final bool isBoss;
-  final bool isFullRegistered;
+  final User user;
   LoginSuccess({
-    required this.isBoss,
-    required this.isFullRegistered,
+    required this.user,
   });
 }
 
 final class LoginError extends LoginState {
   final int? error;
-  LoginError(
-    this.error,
-  );
+  LoginError(this.error);
 }
 
 final class LoginLoadInProgress extends LoginState {}

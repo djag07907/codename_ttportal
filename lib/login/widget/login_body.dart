@@ -3,12 +3,12 @@ import 'package:codename_ttportal/home/home_screen.dart';
 import 'package:codename_ttportal/login/bloc/login_bloc.dart';
 import 'package:codename_ttportal/login/bloc/login_event.dart';
 import 'package:codename_ttportal/login/bloc/login_state.dart';
-import 'package:codename_ttportal/user/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginBody extends StatefulWidget {
   const LoginBody({super.key});
+
   @override
   _LoginBodyState createState() => _LoginBodyState();
 }
@@ -25,25 +25,19 @@ class _LoginBodyState extends State<LoginBody> {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccess) {
-          if (state.isBoss) {
+          if (state.user.isAdmin) {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const AdminScreen(userName: "Admin User"),
+                builder: (context) =>
+                    AdminScreen(userName: state.user.userName),
               ),
             );
           } else {
-            // Create a dummy User instance to pass to HomeScreen.
-            final user = User(
-              id: "default_id",
-              username: "Regular User",
-              email: _emailController.text,
-              password: "", // Password is not required here
-            );
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => HomeScreen(user: user),
+                builder: (context) => HomeScreen(user: state.user),
               ),
             );
           }

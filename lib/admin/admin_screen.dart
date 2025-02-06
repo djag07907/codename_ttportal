@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 class AdminScreen extends StatelessWidget {
   final String userName;
-
   const AdminScreen({super.key, required this.userName});
 
   @override
