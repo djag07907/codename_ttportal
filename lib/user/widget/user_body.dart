@@ -20,17 +20,18 @@ class _UserBodyState extends State<UserBody> {
   }
 
   void _addUser() {
+    final parentContext = context;
     showDialog(
-      context: context,
+      context: parentContext,
       builder: (context) => UserDialog(
         onSave: (User user) {
-          context.read<UserBloc>().add(
+          parentContext.read<UserBloc>().add(
                 CreateUserEvent(user),
               );
         },
       ),
     ).then((_) {
-      context.read<UserBloc>().add(
+      parentContext.read<UserBloc>().add(
             const FetchUsersEvent(),
           );
     });

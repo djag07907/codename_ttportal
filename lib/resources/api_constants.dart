@@ -1,4 +1,5 @@
-const baseUrl = 'http://192.168.1.210:3000';
+// const baseUrl = 'http://192.168.1.210:3000';
+const baseUrl = 'https://gatewaylicensing-qa.tecnologiatransaccional.com';
 
 const loginPath = '/controldashboard/web/v1/User/Login';
 const createCompanyPath = '/controldashboard/web/v1/Company';

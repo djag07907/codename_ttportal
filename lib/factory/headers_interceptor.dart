@@ -29,9 +29,6 @@ final class HeadersInterceptor extends QueuedInterceptor {
 
     options.headers['SecretKey'] =
         'ujJTh2rta8ItSm/1PYQGxq2GQZXtFEq1yHYhtsIztUi66uaVbfNG7IwX9eoQ817jy8UUeX7X3dMUVGTioLq0Ew==';
-    options.headers['AppVersion'] = '1.0.0';
-    options.headers['AppBundle'] = '';
-    options.headers['OsClient'] = osClient;
     if (!isGuess) {
       final String token = await UserRepository().getToken();
       options.headers['Authorization'] = 'Bearer $token';

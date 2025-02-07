@@ -23,7 +23,7 @@ class _CompaniesBodyState extends State<CompaniesBody> {
         child: _CompaniesDialog(
           company: company,
           onSave: (Company updatedCompany) {
-            // For editing, you might want to implement update functionality.
+            //TODO: Implement edit endpoint
           },
         ),
       ),
@@ -44,7 +44,7 @@ class _CompaniesBodyState extends State<CompaniesBody> {
           ),
           ElevatedButton(
             onPressed: () {
-              // Implement deletion logic if needed.
+              //TODO: Implement deletion logic
               Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
@@ -81,7 +81,6 @@ class _CompaniesBodyState extends State<CompaniesBody> {
       body: BlocListener<CompanyBloc, CompanyState>(
         listener: (context, state) {
           if (state is CompanyCreationSuccess) {
-            // Refetch companies after a successful creation
             context.read<CompanyBloc>().add(
                   const FetchCompaniesEvent(),
                 );
