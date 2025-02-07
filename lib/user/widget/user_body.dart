@@ -1,44 +1,39 @@
 import 'package:codename_ttportal/common/user_dialog.dart';
-import 'package:codename_ttportal/dashboard/model/dashboard_model.dart';
-import 'package:codename_ttportal/services/local_storage.dart';
+import 'package:codename_ttportal/user/bloc/user_bloc.dart';
+import 'package:codename_ttportal/user/bloc/user_event.dart';
+import 'package:codename_ttportal/user/bloc/user_state.dart';
 import 'package:codename_ttportal/user/model/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserBody extends StatefulWidget {
   const UserBody({super.key});
-
   @override
   State<UserBody> createState() => _UserBodyState();
 }
 
 class _UserBodyState extends State<UserBody> {
-  final LocalStorageService _storageService = LocalStorageService();
-  List<User> users = [];
-  List<Dashboard> dashboards = [];
-
   @override
   void initState() {
     super.initState();
-    _loadData();
-    _loadUsers();
-  }
-
-  Future<void> _loadUsers() async {
-    users = await _storageService.getUsers();
-    setState(() {});
+    context.read<UserBloc>().add(const FetchUsersEvent());
   }
 
   void _addUser() {
     showDialog(
       context: context,
       builder: (context) => UserDialog(
-        availableDashboards: dashboards,
-        onSave: (User user) async {
-          await _storageService.addUser(user);
-          _loadUsers();
+        onSave: (User user) {
+          context.read<UserBloc>().add(
+                CreateUserEvent(user),
+              );
         },
       ),
-    );
+    ).then((_) {
+      context.read<UserBloc>().add(
+            const FetchUsersEvent(),
+          );
+    });
   }
 
   void _editUser(User user) {
@@ -46,53 +41,23 @@ class _UserBodyState extends State<UserBody> {
       context: context,
       builder: (context) => UserDialog(
         user: user,
-        availableDashboards: dashboards,
-        onSave: (User updatedUser) async {
-          await _storageService.updateUser(updatedUser);
-          _loadUsers();
+        onSave: (User updatedUser) {
+          context.read<UserBloc>().add(CreateUserEvent(updatedUser));
         },
       ),
-    );
+    ).then((_) {
+      context.read<UserBloc>().add(
+            const FetchUsersEvent(),
+          );
+    });
   }
 
-  void _deleteUser(User user) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete User'),
-        content: Text('Are you sure you want to delete ${user.email}?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              await _storageService.deleteUser(user.id);
-              Navigator.pop(context);
-              _loadUsers();
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-            ),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _loadData() async {
-    users = await _storageService.getUsers();
-    dashboards = await _storageService.getDashboards();
-    setState(() {});
-  }
+  void _deleteUser(String userId) {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         title: const Text(
           'Management Users',
           style: TextStyle(
@@ -100,22 +65,26 @@ class _UserBodyState extends State<UserBody> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        backgroundColor: Colors.transparent,
       ),
-      body: users.isEmpty
-          ? const Center(
-              child: Text(
-                'There is no users data yet.',
-                style: TextStyle(fontSize: 18),
-              ),
-            )
-          : ListView.builder(
+      body: BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          if (state is UserOperationInProgress) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is UsersFetchSuccess) {
+            final users = state.users;
+            if (users.isEmpty) {
+              return const Center(
+                child: Text('There is no data yet.'),
+              );
+            }
+            return ListView.builder(
               itemCount: users.length,
               itemBuilder: (context, index) {
                 final user = users[index];
-                final assignedDashboards = dashboards
-                    .where((d) => user.assignedDashboardIds.contains(d.id))
-                    .toList();
-                return ExpansionTile(
+                return ListTile(
                   title: Text(user.email),
                   subtitle: Text(user.isAdmin ? 'Admin' : 'Regular User'),
                   trailing: Row(
@@ -127,25 +96,21 @@ class _UserBodyState extends State<UserBody> {
                       ),
                       IconButton(
                         icon: const Icon(Icons.delete),
-                        onPressed: () => _deleteUser(user),
+                        onPressed: () => _deleteUser(user.id ?? ''),
                       ),
                     ],
                   ),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Assigned Dashboards:'),
-                          ...assignedDashboards.map((d) => Text('- ${d.name}')),
-                        ],
-                      ),
-                    ),
-                  ],
                 );
               },
-            ),
+            );
+          } else if (state is UsersFetchError) {
+            return Center(
+              child: Text('Error: ${state.error}'),
+            );
+          }
+          return const SizedBox();
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addUser,
         child: const Icon(Icons.add),

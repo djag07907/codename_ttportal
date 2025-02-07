@@ -1,17 +1,15 @@
-import 'package:codename_ttportal/dashboard/model/dashboard_model.dart';
 import 'package:codename_ttportal/user/model/user_model.dart';
 import 'package:flutter/material.dart';
 
 class UserDialog extends StatefulWidget {
   final User? user;
   final Function(User) onSave;
-  final List<Dashboard> availableDashboards;
-
+  // final List<Dashboard> availableDashboards; // Commented out
   const UserDialog({
     super.key,
     this.user,
     required this.onSave,
-    required this.availableDashboards,
+    // required this.availableDashboards, // Commented out
   });
 
   @override
@@ -24,16 +22,16 @@ class _UserDialogState extends State<UserDialog> {
   late String email;
   late String password;
   late bool isAdmin;
-  late List<String> assignedDashboardIds;
+  // late List<String> assignedDashboardIds; // Commented out
 
   @override
   void initState() {
     super.initState();
-    username = widget.user?.username ?? '';
+    username = widget.user?.userName ?? '';
     email = widget.user?.email ?? '';
     password = widget.user?.password ?? '';
     isAdmin = widget.user?.isAdmin ?? false;
-    assignedDashboardIds = widget.user?.assignedDashboardIds ?? [];
+    // assignedDashboardIds = widget.user?.assignedDashboardIds ?? []; // Commented out
   }
 
   @override
@@ -87,6 +85,8 @@ class _UserDialogState extends State<UserDialog> {
                 onChanged: (value) => setState(() => isAdmin = value),
               ),
               const SizedBox(height: 16),
+              // The assigned dashboards section is commented out but kept here for reference.
+              /*
               const Text('Assigned Dashboards:',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               ...widget.availableDashboards.map((dashboard) {
@@ -104,6 +104,8 @@ class _UserDialogState extends State<UserDialog> {
                   },
                 );
               }).toList(),
+              const SizedBox(height: 16),
+              */
             ],
           ),
         ),
@@ -118,12 +120,12 @@ class _UserDialogState extends State<UserDialog> {
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
               final user = User(
-                username: username,
+                userName: username,
                 id: widget.user?.id ?? DateTime.now().toString(),
                 email: email,
                 password: password,
                 isAdmin: isAdmin,
-                assignedDashboardIds: assignedDashboardIds,
+                // assignedDashboardIds: assignedDashboardIds, // Commented out
               );
               widget.onSave(user);
               Navigator.pop(context);
