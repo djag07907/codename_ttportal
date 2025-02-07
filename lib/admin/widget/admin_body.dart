@@ -1,3 +1,5 @@
+import 'package:codename_ttportal/companies/companies_screen.dart';
+import 'package:codename_ttportal/licenses/licenses_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:codename_ttportal/dashboard/dashboard_screen.dart';
 import 'package:codename_ttportal/user/user_screen.dart';
@@ -58,6 +60,36 @@ class _AdminBodyState extends State<AdminBody> {
                   ),
                   onTap: () => setState(
                     () => _currentContent = const UserScreen(),
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.business_center,
+                    color: Colors.white,
+                  ),
+                  title: const Text(
+                    'Manage Companies',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  onTap: () => setState(
+                    () => _currentContent = const CompaniesScreen(),
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.phonelink_setup,
+                    color: Colors.white,
+                  ),
+                  title: const Text(
+                    'Manage Licenses',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  onTap: () => setState(
+                    () => _currentContent = const LicensesScreen(),
                   ),
                 ),
                 ListTile(
