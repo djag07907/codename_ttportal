@@ -41,7 +41,8 @@ class _LoginBodyState extends State<LoginBody> {
               ),
             );
           }
-        } else if (state is LoginError) {
+        }
+        if (state is LoginError) {
           setState(() {
             _errorMessage = "Invalid email or password";
           });

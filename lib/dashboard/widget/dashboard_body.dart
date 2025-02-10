@@ -1,6 +1,9 @@
+import 'package:codename_ttportal/dashboard/bloc/dashboards_bloc.dart';
+import 'package:codename_ttportal/dashboard/bloc/dashboards_event.dart';
+import 'package:codename_ttportal/dashboard/bloc/dashboards_state.dart';
 import 'package:codename_ttportal/dashboard/model/dashboard_model.dart';
-import 'package:codename_ttportal/services/local_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DashboardBody extends StatefulWidget {
   const DashboardBody({super.key});
@@ -10,9 +13,8 @@ class DashboardBody extends StatefulWidget {
 }
 
 class _DashboardBodyState extends State<DashboardBody> {
-  final _formKey = GlobalKey<FormState>();
-  late String name, id, codename, link;
-  final LocalStorageService _storageService = LocalStorageService();
+  // final _formKey = GlobalKey<FormState>();
+  late String name, id, code, link;
   List<Dashboard> dashboards = [];
 
   @override
@@ -22,8 +24,9 @@ class _DashboardBodyState extends State<DashboardBody> {
   }
 
   Future<void> _loadDashboards() async {
-    dashboards = await _storageService.getDashboards();
-    setState(() {});
+    context.read<DashboardsBloc>().add(
+          const FetchDashboardsEvent(),
+        );
   }
 
   void _addDashboard() {
@@ -31,7 +34,6 @@ class _DashboardBodyState extends State<DashboardBody> {
       context: context,
       builder: (context) => _DashboardDialog(
         onSave: (Dashboard dashboard) async {
-          await _storageService.addDashboard(dashboard);
           _loadDashboards();
         },
       ),
@@ -44,7 +46,6 @@ class _DashboardBodyState extends State<DashboardBody> {
       builder: (context) => _DashboardDialog(
         dashboard: dashboard,
         onSave: (Dashboard updatedDashboard) async {
-          await _storageService.updateDashboard(updatedDashboard);
           _loadDashboards();
         },
       ),
@@ -64,7 +65,6 @@ class _DashboardBodyState extends State<DashboardBody> {
           ),
           ElevatedButton(
             onPressed: () async {
-              await _storageService.deleteDashboard(dashboard.id);
               Navigator.pop(context);
               _loadDashboards();
             },
@@ -89,19 +89,30 @@ class _DashboardBodyState extends State<DashboardBody> {
           ),
         ),
       ),
-      body: dashboards.isEmpty
-          ? const Center(
-              child: Text(
-                'There are no dashboards data yet.',
-                style: TextStyle(fontSize: 18),
-              ),
-            )
-          : ListView.builder(
+      body: BlocBuilder<DashboardsBloc, DashboardsState>(
+        builder: (context, state) {
+          if (state is DashboardsInProgress) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state is DashboardsFetchSuccess) {
+            final dashboards = state.dashboard;
+            if (dashboards.isEmpty) {
+              return const Center(
+                child: Text(
+                  'There is no data yet.',
+                  style: TextStyle(fontSize: 18),
+                ),
+              );
+            }
+
+            return ListView.builder(
               itemCount: dashboards.length,
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(dashboards[index].name),
-                  subtitle: Text(dashboards[index].codename),
+                  subtitle: Text(dashboards[index].code),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -117,7 +128,16 @@ class _DashboardBodyState extends State<DashboardBody> {
                   ),
                 );
               },
-            ),
+            );
+          }
+          if (state is DashboardsFetchError) {
+            return Center(
+              child: Text('Error: ${state.error}'),
+            );
+          }
+          return const SizedBox();
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addDashboard,
         child: const Icon(Icons.add),
@@ -139,14 +159,14 @@ class _DashboardDialog extends StatefulWidget {
 class __DashboardDialogState extends State<_DashboardDialog> {
   final _formKey = GlobalKey<FormState>();
   late String name;
-  late String codename;
+  late String code;
   late String link;
 
   @override
   void initState() {
     super.initState();
     name = widget.dashboard?.name ?? '';
-    codename = widget.dashboard?.codename ?? '';
+    code = widget.dashboard?.code ?? '';
     link = widget.dashboard?.link ?? '';
   }
 
@@ -168,11 +188,11 @@ class __DashboardDialogState extends State<_DashboardDialog> {
               onSaved: (value) => name = value!,
             ),
             TextFormField(
-              initialValue: codename,
+              initialValue: code,
               decoration: const InputDecoration(labelText: 'Codename'),
               validator: (value) =>
-                  value!.isEmpty ? 'Please enter a codename' : null,
-              onSaved: (value) => codename = value!,
+                  value!.isEmpty ? 'Please enter a code' : null,
+              onSaved: (value) => code = value!,
             ),
             TextFormField(
               initialValue: link,
@@ -196,7 +216,7 @@ class __DashboardDialogState extends State<_DashboardDialog> {
               final dashboard = Dashboard(
                 id: widget.dashboard?.id ?? DateTime.now().toString(),
                 name: name,
-                codename: codename,
+                code: code,
                 link: link,
               );
               widget.onSave(dashboard);

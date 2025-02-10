@@ -8,25 +8,25 @@ final List<Dashboard> mockDashboards = [
   Dashboard(
     id: '1',
     name: 'Sales Overview',
-    codename: 'SALES',
+    code: 'SALES',
     link: 'https://example.com/sales',
   ),
   Dashboard(
     id: '2',
     name: 'Inventory Management',
-    codename: 'INVENTORY',
+    code: 'INVENTORY',
     link: 'https://example.com/inventory',
   ),
   Dashboard(
     id: '3',
     name: 'Customer Insights',
-    codename: 'CUSTOMER',
+    code: 'CUSTOMER',
     link: 'https://example.com/customer',
   ),
   Dashboard(
     id: '4',
     name: 'Marketing Analytics',
-    codename: 'MARKETING',
+    code: 'MARKETING',
     link: 'https://example.com/marketing',
   ),
 ];

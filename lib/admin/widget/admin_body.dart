@@ -30,7 +30,6 @@ class _AdminBodyState extends State<AdminBody> {
     return Scaffold(
       body: Row(
         children: [
-          // Left side menu
           Container(
             width: 250,
             color: Colors.blue[900],
@@ -110,11 +109,9 @@ class _AdminBodyState extends State<AdminBody> {
               ],
             ),
           ),
-          // Right side content
           Expanded(
             child: Column(
               children: [
-                // Top navigation bar
                 Container(
                   height: 60,
                   color: Colors.white,
@@ -136,7 +133,6 @@ class _AdminBodyState extends State<AdminBody> {
                     ],
                   ),
                 ),
-                // Content area
                 Expanded(child: _currentContent),
               ],
             ),
@@ -149,7 +145,9 @@ class _AdminBodyState extends State<AdminBody> {
   void _logout(BuildContext context) {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const LoginScreen()),
+      MaterialPageRoute(
+        builder: (context) => const LoginScreen(),
+      ),
     );
   }
 }

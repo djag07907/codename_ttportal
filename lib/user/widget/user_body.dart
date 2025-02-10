@@ -13,12 +13,6 @@ class UserBody extends StatefulWidget {
 }
 
 class _UserBodyState extends State<UserBody> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<UserBloc>().add(const FetchUsersEvent());
-  }
-
   void _addUser() {
     final parentContext = context;
     showDialog(
@@ -56,6 +50,14 @@ class _UserBodyState extends State<UserBody> {
   void _deleteUser(String userId) {}
 
   @override
+  void initState() {
+    super.initState();
+    context.read<UserBloc>().add(
+          const FetchUsersEvent(),
+        );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -74,7 +76,8 @@ class _UserBodyState extends State<UserBody> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state is UsersFetchSuccess) {
+          }
+          if (state is UsersFetchSuccess) {
             final users = state.users;
             if (users.isEmpty) {
               return const Center(
@@ -104,7 +107,8 @@ class _UserBodyState extends State<UserBody> {
                 );
               },
             );
-          } else if (state is UsersFetchError) {
+          }
+          if (state is UsersFetchError) {
             return Center(
               child: Text('Error: ${state.error}'),
             );
