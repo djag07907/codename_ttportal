@@ -29,7 +29,7 @@ class HomeService {
     String companyId,
   ) async {
     final response = await authClient.get(
-      '$getDashboardByCompanyIdPath/$companyId',
+      '$getDashboardByCompanyIdPath$companyId',
     );
     final dynamic responseData = response.data['data'];
     List<dynamic> dataList = responseData is List ? responseData : [];

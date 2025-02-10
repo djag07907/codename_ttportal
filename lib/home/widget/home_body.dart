@@ -43,12 +43,6 @@ class _HomeBodyState extends State<HomeBody> {
 
     print("User: $user");
     print("User Token: ${user.token}");
-
-    context.read<HomeBloc>().add(
-          FetchDashboardsByCompanyId(
-            user.companyId,
-          ),
-        );
   }
 
   @override
@@ -69,42 +63,53 @@ class _HomeBodyState extends State<HomeBody> {
           ),
         ],
       ),
-      body: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          if (state is HomeInProgress) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+      body: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          if (state is UserDetailsFetchSuccess) {
+            context.read<HomeBloc>().add(
+                  FetchDashboardsByCompanyId(
+                    state.companyId,
+                  ),
+                );
           }
-          if (state is DashboardsFetchSuccess) {
-            final dashboards = state.dashboard;
-            return dashboards.isEmpty
-                ? const Center(
-                    child: Text('No dashboards available for your account.'),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 16,
-                        mainAxisSpacing: 16,
-                        childAspectRatio: 1.5,
-                      ),
-                      itemCount: dashboards.length,
-                      itemBuilder: (context, index) {
-                        return DashboardCard(
-                          dashboard: dashboards[index],
-                        );
-                      },
-                    ),
-                  );
-          }
-          return const Center(
-            child: Text('Error loading dashboards'),
-          );
         },
+        child: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            if (state is HomeInProgress) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state is DashboardsFetchSuccess) {
+              final dashboards = state.dashboard;
+              return dashboards.isEmpty
+                  ? const Center(
+                      child: Text('No dashboards available for your account.'),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                          childAspectRatio: 1.5,
+                        ),
+                        itemCount: dashboards.length,
+                        itemBuilder: (context, index) {
+                          return DashboardCard(
+                            dashboard: dashboards[index],
+                          );
+                        },
+                      ),
+                    );
+            }
+            return const Center(
+              child: Text('Error loading dashboards'),
+            );
+          },
+        ),
       ),
     );
   }

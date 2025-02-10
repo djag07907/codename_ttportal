@@ -28,17 +28,6 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
           companyId,
         ),
       );
-      final dashboards = await service.getDashboardsByCompanyId(companyId);
-      emit(
-        DashboardsFetchSuccess(
-          dashboards,
-        ),
-      );
-      add(
-        FetchDashboardsByCompanyId(
-          companyId,
-        ),
-      );
     } on DioException catch (error) {
       _handleDioException(
         error,
@@ -81,13 +70,15 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
     if (error.response?.statusCode == null ||
         error.response!.statusCode! >= 500 ||
         error.response?.data?[responseCode] == null) {
-      emit(
-        HomeError(500),
-      );
+      emit(HomeError(500));
     } else {
-      errorEmitter(
-        error.response!.data[responseCode],
-      );
+      final code = error.response!.data[responseCode];
+      if (code is String) {
+        int errorCode = int.tryParse(code) ?? 500;
+        errorEmitter(errorCode);
+      } else {
+        errorEmitter(code);
+      }
     }
   }
 }

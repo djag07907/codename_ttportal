@@ -14,7 +14,7 @@ const getDashboardsPath =
     '/controldashboard/web/v1/Dashboard/GetAll/true?PageNumber=1&PageSize=10';
 // const getDashboardByCompanyIdPath = '/controldashboard/web/v1/Dashboard';
 const getDashboardByCompanyIdPath =
-    '/controldashboard/web/v1/Dashboard/GetDashboardsByCompanyId';
+    '/controldashboard/web/v1/Dashboard/GetDashboardsByCompanyId/';
 const getLicensesFromCompanyPath =
     '/controldashboard/web/v1/License/GetAll?PageNumber=1&PageSize=10&all=false&assigned=true&';
 const getUserDetailsPath =
