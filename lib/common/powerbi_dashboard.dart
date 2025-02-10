@@ -1,4 +1,4 @@
-import 'package:codename_ttportal/dashboard/model/dashboard_model.dart';
+import 'package:codename_ttportal/home/model/dashboard_model.dart';
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
 import 'dart:ui' as ui;
@@ -41,7 +41,9 @@ class _PowerBIDashboardState extends State<PowerBIDashboard> {
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        child: HtmlElementView(viewType: viewId),
+        child: HtmlElementView(
+          viewType: viewId,
+        ),
       ),
     );
   }

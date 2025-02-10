@@ -42,6 +42,11 @@ class _LoginBodyState extends State<LoginBody> {
             );
           }
         }
+        // if (state is NoLicenseError) {
+        //   setState(() {
+        //     _errorMessage = "User has no license";
+        //   });
+        // }
         if (state is LoginError) {
           setState(() {
             _errorMessage = "Invalid email or password";

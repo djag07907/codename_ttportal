@@ -1,6 +1,6 @@
+import 'package:codename_ttportal/home/model/dashboard_model.dart';
 import 'package:flutter/material.dart';
 import 'package:codename_ttportal/common/powerbi_dashboard.dart';
-import 'package:codename_ttportal/dashboard/model/dashboard_model.dart';
 
 class DashboardCard extends StatelessWidget {
   final Dashboard dashboard;
@@ -22,7 +22,9 @@ class DashboardCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PowerBIDashboard(dashboard: dashboard),
+              builder: (context) => PowerBIDashboard(
+                dashboard: dashboard,
+              ),
             ),
           );
         },
@@ -31,7 +33,11 @@ class DashboardCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.dashboard, size: 48, color: Colors.blue[900]),
+              Icon(
+                Icons.dashboard,
+                size: 48,
+                color: Colors.blue[900],
+              ),
               const SizedBox(height: 8),
               Text(
                 dashboard.name,

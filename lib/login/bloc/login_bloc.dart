@@ -34,7 +34,9 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
     LoginWithEmailPassword event,
     Emitter<LoginState> emit,
   ) async {
-    emit(LoginInProgress());
+    emit(
+      LoginInProgress(),
+    );
     try {
       final response = await service.loginWithPassword(
         email: event.email,
@@ -50,6 +52,20 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
         password: event.password,
       );
 
+      // if (!user.isAdmin) {
+      //   final hasLicense = await service.checkUserLicense(
+      //     event.email,
+      //   );
+      //   if (!hasLicense) {
+      //     emit(
+      //       NoLicenseError(
+      //         403,
+      //         message: "No valid license found for this user",
+      //       ),
+      //     );
+      //     return;
+      //   }
+      // }
       emit(
         LoginSuccess(
           user: user,
@@ -59,7 +75,9 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
       _handleDioException(
         error,
         emit,
-        (code) => emit(LoginError(code)),
+        (code) => emit(
+          LoginError(code),
+        ),
       );
     }
   }

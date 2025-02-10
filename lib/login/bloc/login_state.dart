@@ -19,11 +19,21 @@ final class LoginError extends LoginState {
   LoginError(this.error);
 }
 
+// final class NoLicenseError extends LoginState {
+//   final int? error;
+
+//   NoLicenseError(
+//     this.error, {
+//     required String message,
+//   });
+// }
+
 final class LoginLoadInProgress extends LoginState {}
 
 final class LoginLoadSuccess extends LoginState {
   final bool rememberUser;
   final String email;
+
   LoginLoadSuccess({
     required this.rememberUser,
     required this.email,

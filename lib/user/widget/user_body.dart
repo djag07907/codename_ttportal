@@ -7,7 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserBody extends StatefulWidget {
-  const UserBody({super.key});
+  const UserBody({
+    super.key,
+  });
+
   @override
   State<UserBody> createState() => _UserBodyState();
 }

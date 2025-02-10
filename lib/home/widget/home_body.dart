@@ -1,50 +1,41 @@
+import 'package:codename_ttportal/home/bloc/home_bloc.dart';
+import 'package:codename_ttportal/home/bloc/home_event.dart';
+import 'package:codename_ttportal/home/bloc/home_state.dart';
 import 'package:flutter/material.dart';
 import 'package:codename_ttportal/login/model/user.dart';
 import 'package:codename_ttportal/common/dashboard_card.dart';
-import 'package:codename_ttportal/dashboard/model/dashboard_model.dart';
+
 import 'package:codename_ttportal/login/login_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-final List<Dashboard> mockDashboards = [
-  Dashboard(
-    id: '1',
-    name: 'Sales Overview',
-    code: 'SALES',
-    link: 'https://example.com/sales',
-  ),
-  Dashboard(
-    id: '2',
-    name: 'Inventory Management',
-    code: 'INVENTORY',
-    link: 'https://example.com/inventory',
-  ),
-  Dashboard(
-    id: '3',
-    name: 'Customer Insights',
-    code: 'CUSTOMER',
-    link: 'https://example.com/customer',
-  ),
-  Dashboard(
-    id: '4',
-    name: 'Marketing Analytics',
-    code: 'MARKETING',
-    link: 'https://example.com/marketing',
-  ),
-];
-
-class HomeBody extends StatelessWidget {
+class HomeBody extends StatefulWidget {
   final User user;
 
-  HomeBody({
+  const HomeBody({
     super.key,
     required this.user,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final dashboards = mockDashboards
-        .where((dashboard) => user.assignedDashboardIds.contains(dashboard.id))
-        .toList();
+  State<HomeBody> createState() => _HomeBodyState();
+}
 
+class _HomeBodyState extends State<HomeBody> {
+  late User user;
+
+  @override
+  void initState() {
+    super.initState();
+    user = widget.user;
+    context.read<HomeBloc>().add(
+          FetchDashboardsByCompanyId(
+            user.companyId,
+          ),
+        );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Welcome, ${user.userName}'),
@@ -54,30 +45,50 @@ class HomeBody extends StatelessWidget {
             icon: const Icon(Icons.logout),
             onPressed: () => Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const LoginScreen()),
+              MaterialPageRoute(
+                builder: (context) => const LoginScreen(),
+              ),
             ),
           ),
         ],
       ),
-      body: dashboards.isEmpty
-          ? const Center(
-              child: Text('No dashboards available for your account.'),
-            )
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 1.5,
-                ),
-                itemCount: dashboards.length,
-                itemBuilder: (context, index) {
-                  return DashboardCard(dashboard: dashboards[index]);
-                },
-              ),
-            ),
+      body: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          if (state is HomeInProgress) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state is DashboardsFetchSuccess) {
+            final dashboards = state.dashboard;
+            return dashboards.isEmpty
+                ? const Center(
+                    child: Text('No dashboards available for your account.'),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16,
+                        childAspectRatio: 1.5,
+                      ),
+                      itemCount: dashboards.length,
+                      itemBuilder: (context, index) {
+                        return DashboardCard(
+                          dashboard: dashboards[index],
+                        );
+                      },
+                    ),
+                  );
+          }
+          return const Center(
+            child: Text('Error loading dashboards'),
+          );
+        },
+      ),
     );
   }
 }
