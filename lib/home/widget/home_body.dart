@@ -1,10 +1,10 @@
+import 'package:codename_ttportal/common/utils/token_decryptor.dart';
 import 'package:codename_ttportal/home/bloc/home_bloc.dart';
 import 'package:codename_ttportal/home/bloc/home_event.dart';
 import 'package:codename_ttportal/home/bloc/home_state.dart';
 import 'package:flutter/material.dart';
 import 'package:codename_ttportal/login/model/user.dart';
 import 'package:codename_ttportal/common/dashboard_card.dart';
-
 import 'package:codename_ttportal/login/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,6 +27,23 @@ class _HomeBodyState extends State<HomeBody> {
   void initState() {
     super.initState();
     user = widget.user;
+    final userId = TokenDecryptor.getUserId(user.token);
+    print("User ID: $userId");
+
+    if (userId != null) {
+      print("Fetching user details for User ID: $userId");
+      context.read<HomeBloc>().add(
+            FetchUserDetailsById(
+              userId,
+            ),
+          );
+    } else {
+      print("User ID is null. Please check the user token.");
+    }
+
+    print("User: $user");
+    print("User Token: ${user.token}");
+
     context.read<HomeBloc>().add(
           FetchDashboardsByCompanyId(
             user.companyId,

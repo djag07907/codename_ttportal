@@ -9,6 +9,7 @@ final class LoginInProgress extends LoginState {}
 
 final class LoginSuccess extends LoginState {
   final User user;
+
   LoginSuccess({
     required this.user,
   });
@@ -16,17 +17,11 @@ final class LoginSuccess extends LoginState {
 
 final class LoginError extends LoginState {
   final int? error;
-  LoginError(this.error);
+
+  LoginError(
+    this.error,
+  );
 }
-
-// final class NoLicenseError extends LoginState {
-//   final int? error;
-
-//   NoLicenseError(
-//     this.error, {
-//     required String message,
-//   });
-// }
 
 final class LoginLoadInProgress extends LoginState {}
 

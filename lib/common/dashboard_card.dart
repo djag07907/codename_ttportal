@@ -49,7 +49,7 @@ class DashboardCard extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                dashboard.code,
+                dashboard.dashboardCode,
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey[600],

@@ -6,7 +6,7 @@ class User {
   final String password;
   final bool isAdmin;
   final String companyId;
-  final List<String> assignedDashboardIds;
+  final String token;
 
   User({
     required this.userName,
@@ -14,7 +14,7 @@ class User {
     required this.password,
     required this.isAdmin,
     required this.companyId,
-    this.assignedDashboardIds = const [],
+    required this.token,
   });
 
   factory User.fromToken({
@@ -34,9 +34,7 @@ class User {
       password: password,
       isAdmin: adminValue,
       companyId: payload['companyId'] ?? '',
-      assignedDashboardIds: payload['assignedDashboardIds'] != null
-          ? List<String>.from(payload['assignedDashboardIds'])
-          : [],
+      token: token,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:codename_ttportal/factory/client_factory.dart';
 import 'package:codename_ttportal/factory/guess_factory.dart';
 import 'package:codename_ttportal/home/model/dashboard_model.dart';
+import 'package:codename_ttportal/home/model/user_details_model.dart';
 import 'package:codename_ttportal/resources/api_constants.dart';
 import 'package:dio/dio.dart';
 
@@ -16,6 +17,13 @@ class HomeService {
     this.client,
     this.authClient,
   );
+
+  Future<UserDetails> getUserDetailsById(String userId) async {
+    final response = await authClient.get(
+      '$getUserDetailsPath$userId',
+    );
+    return UserDetails.fromJson(response.data['data']['results'][0]);
+  }
 
   Future<List<Dashboard>> getDashboardsByCompanyId(
     String companyId,

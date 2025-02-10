@@ -3,7 +3,7 @@ import 'package:codename_ttportal/repository/respository_constants.dart';
 class Dashboard {
   final String id;
   final String name;
-  final String code;
+  final String dashboardCode;
   final String link;
   final String? companyId;
   final String? companyName;
@@ -13,7 +13,7 @@ class Dashboard {
   Dashboard({
     required this.id,
     required this.name,
-    required this.code,
+    required this.dashboardCode,
     required this.link,
     this.companyId,
     this.companyName,
@@ -25,7 +25,7 @@ class Dashboard {
     return {
       'id': id,
       'name': name,
-      'code': code,
+      'dashboardCode': dashboardCode,
       'link': link,
       'companyId': companyId,
       'companyName': companyName,
@@ -36,7 +36,7 @@ class Dashboard {
     return Dashboard(
       id: json['id'] ?? emptyString,
       name: json['name'] ?? emptyString,
-      code: json['code'] ?? emptyString,
+      dashboardCode: json['dashboardCode'] ?? emptyString,
       link: json['link'] ?? emptyString,
       companyId: json['companyId'],
       companyName: json['companyName'],

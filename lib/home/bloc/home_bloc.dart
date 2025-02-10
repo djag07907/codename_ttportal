@@ -8,9 +8,45 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeInitial()) {
+    on<FetchUserDetailsById>(fetchUserDetailsById);
     on<FetchDashboardsByCompanyId>(fetchDashboardsByCompanyId);
   }
   final HomeService service = HomeService();
+
+  Future<void> fetchUserDetailsById(
+    FetchUserDetailsById event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(
+      HomeInProgress(),
+    );
+    try {
+      final response = await service.getUserDetailsById(event.userId);
+      final companyId = response.companyId;
+      emit(
+        UserDetailsFetchSuccess(
+          companyId,
+        ),
+      );
+      final dashboards = await service.getDashboardsByCompanyId(companyId);
+      emit(
+        DashboardsFetchSuccess(
+          dashboards,
+        ),
+      );
+      add(
+        FetchDashboardsByCompanyId(
+          companyId,
+        ),
+      );
+    } on DioException catch (error) {
+      _handleDioException(
+        error,
+        emit,
+        (code) => emit(HomeError(code)),
+      );
+    }
+  }
 
   Future<void> fetchDashboardsByCompanyId(
     FetchDashboardsByCompanyId event,
@@ -24,15 +60,15 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
         event.companyId,
       );
       emit(
-        DashboardsFetchSuccess(dashboards),
+        DashboardsFetchSuccess(
+          dashboards,
+        ),
       );
     } on DioException catch (error) {
       _handleDioException(
         error,
         emit,
-        (code) => emit(
-          HomeError(code),
-        ),
+        (code) => emit(HomeError(code)),
       );
     }
   }
@@ -45,7 +81,9 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
     if (error.response?.statusCode == null ||
         error.response!.statusCode! >= 500 ||
         error.response?.data?[responseCode] == null) {
-      emit(HomeError(500));
+      emit(
+        HomeError(500),
+      );
     } else {
       errorEmitter(
         error.response!.data[responseCode],

@@ -13,3 +13,11 @@ class FetchDashboardsByCompanyId extends HomeEvent {
     this.companyId,
   );
 }
+
+class FetchUserDetailsById extends HomeEvent {
+  final String userId;
+
+  const FetchUserDetailsById(
+    this.userId,
+  );
+}

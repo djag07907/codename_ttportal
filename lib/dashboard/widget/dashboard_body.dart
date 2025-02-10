@@ -14,7 +14,7 @@ class DashboardBody extends StatefulWidget {
 
 class _DashboardBodyState extends State<DashboardBody> {
   // final _formKey = GlobalKey<FormState>();
-  late String name, id, code, link;
+  late String name, id, dashboardCode, link;
   List<Dashboard> dashboards = [];
 
   @override
@@ -112,7 +112,7 @@ class _DashboardBodyState extends State<DashboardBody> {
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(dashboards[index].name),
-                  subtitle: Text(dashboards[index].code),
+                  subtitle: Text(dashboards[index].dashboardCode),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -159,14 +159,14 @@ class _DashboardDialog extends StatefulWidget {
 class __DashboardDialogState extends State<_DashboardDialog> {
   final _formKey = GlobalKey<FormState>();
   late String name;
-  late String code;
+  late String dashboardCode;
   late String link;
 
   @override
   void initState() {
     super.initState();
     name = widget.dashboard?.name ?? '';
-    code = widget.dashboard?.code ?? '';
+    dashboardCode = widget.dashboard?.dashboardCode ?? '';
     link = widget.dashboard?.link ?? '';
   }
 
@@ -188,11 +188,11 @@ class __DashboardDialogState extends State<_DashboardDialog> {
               onSaved: (value) => name = value!,
             ),
             TextFormField(
-              initialValue: code,
+              initialValue: dashboardCode,
               decoration: const InputDecoration(labelText: 'Codename'),
               validator: (value) =>
-                  value!.isEmpty ? 'Please enter a code' : null,
-              onSaved: (value) => code = value!,
+                  value!.isEmpty ? 'Please enter a dashboardCode' : null,
+              onSaved: (value) => dashboardCode = value!,
             ),
             TextFormField(
               initialValue: link,
@@ -216,7 +216,7 @@ class __DashboardDialogState extends State<_DashboardDialog> {
               final dashboard = Dashboard(
                 id: widget.dashboard?.id ?? DateTime.now().toString(),
                 name: name,
-                code: code,
+                dashboardCode: dashboardCode,
                 link: link,
               );
               widget.onSave(dashboard);

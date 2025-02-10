@@ -1,6 +1,6 @@
 import 'package:codename_ttportal/common/bloc/base_state.dart';
 import 'package:codename_ttportal/home/model/dashboard_model.dart';
-import 'package:codename_ttportal/login/model/user.dart';
+import 'package:codename_ttportal/home/model/user_details_model.dart';
 
 sealed class HomeState extends BaseState {}
 
@@ -9,7 +9,8 @@ final class HomeInitial extends HomeState {}
 final class HomeInProgress extends HomeState {}
 
 final class HomeSuccess extends HomeState {
-  final User user;
+  final UserDetails user;
+
   HomeSuccess({
     required this.user,
   });
@@ -17,7 +18,10 @@ final class HomeSuccess extends HomeState {
 
 final class HomeError extends HomeState {
   final int? error;
-  HomeError(this.error);
+
+  HomeError(
+    this.error,
+  );
 }
 
 final class HomeLoadInProgress extends HomeState {}
@@ -37,5 +41,13 @@ class DashboardsFetchError extends HomeState {
 
   DashboardsFetchError(
     this.error,
+  );
+}
+
+class UserDetailsFetchSuccess extends HomeState {
+  final String companyId;
+
+  UserDetailsFetchSuccess(
+    this.companyId,
   );
 }

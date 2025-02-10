@@ -51,21 +51,6 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
         email: event.email,
         password: event.password,
       );
-
-      // if (!user.isAdmin) {
-      //   final hasLicense = await service.checkUserLicense(
-      //     event.email,
-      //   );
-      //   if (!hasLicense) {
-      //     emit(
-      //       NoLicenseError(
-      //         403,
-      //         message: "No valid license found for this user",
-      //       ),
-      //     );
-      //     return;
-      //   }
-      // }
       emit(
         LoginSuccess(
           user: user,
