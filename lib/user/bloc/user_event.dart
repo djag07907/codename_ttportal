@@ -24,3 +24,13 @@ class FetchUsersEvent extends UserEvent {
     this.pageSize = 10,
   });
 }
+
+class FetchCompaniesEvent extends UserEvent {
+  final int pageNumber;
+  final int pageSize;
+
+  const FetchCompaniesEvent({
+    this.pageNumber = 1,
+    this.pageSize = 10,
+  });
+}

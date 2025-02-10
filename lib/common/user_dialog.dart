@@ -25,7 +25,7 @@ class _UserDialogState extends State<UserDialog> {
   late String email;
   late String password;
   late bool isAdmin;
-  String? selectedCompanyId;
+  late String? selectedCompanyId;
 
   List<Company> companies = [];
   bool isLoadingCompanies = true;
@@ -33,20 +33,25 @@ class _UserDialogState extends State<UserDialog> {
   @override
   void initState() {
     super.initState();
-
     username = widget.user?.userName ?? emptyString;
     email = widget.user?.email ?? emptyString;
     password = widget.user?.password ?? emptyString;
     isAdmin = widget.user?.isAdmin ?? false;
-    selectedCompanyId = widget.user?.companyId;
-
+    selectedCompanyId = widget.user?.companyId ?? emptyString;
     _fetchCompanies();
   }
 
   Future<void> _fetchCompanies() async {
+    setState(() {
+      isLoadingCompanies = true;
+    });
     try {
-      companies =
-          await UserService().getCompanies(pageNumber: 1, pageSize: 100);
+      companies = await UserService().getCompanies(
+        pageNumber: 1,
+        pageSize: 100,
+      );
+    } catch (e) {
+      // Handle errors if needed
     } finally {
       setState(() {
         isLoadingCompanies = false;
@@ -148,12 +153,14 @@ class _UserDialogState extends State<UserDialog> {
                         border: OutlineInputBorder(),
                       ),
                       hint: const Text("Choose a company"),
-                      value: (selectedCompanyId?.isEmpty ?? true)
-                          ? null
-                          : selectedCompanyId,
+                      value: isAdmin
+                          ? selectedCompanyId
+                          : (selectedCompanyId?.isEmpty ?? true)
+                              ? null
+                              : selectedCompanyId,
                       items: companies.map((company) {
-                        return DropdownMenuItem(
-                          value: company.id,
+                        return DropdownMenuItem<String>(
+                          value: company.companyId.toString(),
                           child: Text(company.companyName),
                         );
                       }).toList(),

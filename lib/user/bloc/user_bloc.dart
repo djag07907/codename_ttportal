@@ -9,17 +9,22 @@ class UserBloc extends BaseBloc<UserEvent, UserState> {
   UserBloc() : super(UserInitial()) {
     on<CreateUserEvent>(_onCreateUser);
     on<FetchUsersEvent>(_onFetchUsers);
+    on<FetchCompaniesEvent>(_onFetchCompanies);
   }
 
   final UserService service = UserService();
 
   Future<void> _onCreateUser(
-      CreateUserEvent event, Emitter<UserState> emit) async {
+    CreateUserEvent event,
+    Emitter<UserState> emit,
+  ) async {
     emit(
       UserOperationInProgress(),
     );
     try {
-      final createdUser = await service.createUser(user: event.user);
+      final createdUser = await service.createUser(
+        user: event.user,
+      );
       emit(
         UserCreationSuccess(createdUser),
       );
@@ -36,19 +41,53 @@ class UserBloc extends BaseBloc<UserEvent, UserState> {
 
   Future<void> _onFetchUsers(
       FetchUsersEvent event, Emitter<UserState> emit) async {
-    emit(UserOperationInProgress());
+    emit(
+      UserOperationInProgress(),
+    );
     try {
       final users = await service.getUsers(
         pageNumber: event.pageNumber,
         pageSize: event.pageSize,
       );
-      emit(UsersFetchSuccess(users));
+      emit(
+        UsersFetchSuccess(
+          users,
+        ),
+      );
     } on DioException catch (error) {
       _handleDioException(
         error,
         emit,
         (code) => emit(
           UsersFetchError(code),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onFetchCompanies(
+    FetchCompaniesEvent event,
+    Emitter<UserState> emit,
+  ) async {
+    emit(
+      UserOperationInProgress(),
+    );
+    try {
+      final companies = await service.getCompanies(
+        pageNumber: event.pageNumber,
+        pageSize: event.pageSize,
+      );
+      emit(
+        CompaniesFetchSuccess(
+          companies,
+        ),
+      );
+    } on DioException catch (error) {
+      _handleDioException(
+        error,
+        emit,
+        (code) => emit(
+          CompaniesFetchError(code),
         ),
       );
     }

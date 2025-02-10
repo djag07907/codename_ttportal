@@ -17,9 +17,14 @@ class CompanyBloc extends BaseBloc<CompanyEvent, CompanyState> {
       CreateCompanyEvent event, Emitter<CompanyState> emit) async {
     emit(CompanyOperationInProgress());
     try {
-      final createdCompany =
-          await service.createCompany(company: event.company);
-      emit(CompanyCreationSuccess(createdCompany));
+      final createdCompany = await service.createCompany(
+        company: event.company,
+      );
+      emit(
+        CompanyCreationSuccess(
+          createdCompany,
+        ),
+      );
     } on DioException catch (error) {
       _handleDioException(
         error,

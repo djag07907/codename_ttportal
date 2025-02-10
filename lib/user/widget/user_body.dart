@@ -16,6 +16,8 @@ class UserBody extends StatefulWidget {
 }
 
 class _UserBodyState extends State<UserBody> {
+  String? selectedCompanyId;
+
   void _addUser() {
     final parentContext = context;
     showDialog(
@@ -58,6 +60,12 @@ class _UserBodyState extends State<UserBody> {
     context.read<UserBloc>().add(
           const FetchUsersEvent(),
         );
+    context.read<UserBloc>().add(
+          FetchCompaniesEvent(
+            pageNumber: 1,
+            pageSize: 100,
+          ),
+        );
   }
 
   @override
@@ -75,10 +83,13 @@ class _UserBodyState extends State<UserBody> {
       ),
       body: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
-          if (state is UserOperationInProgress) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+          if (state is UserCreationSuccess) {
+            context.read<UserBloc>().add(
+                  const FetchCompaniesEvent(
+                    pageNumber: 1,
+                    pageSize: 100,
+                  ),
+                );
           }
           if (state is UsersFetchSuccess) {
             final users = state.users;

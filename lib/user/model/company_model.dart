@@ -1,14 +1,14 @@
 import 'package:codename_ttportal/repository/respository_constants.dart';
 
 class Company {
-  final String id;
+  final String companyId;
   final String companyName;
   final String dashboardName;
   final String dashboardCode;
   final String dashboardLink;
 
   Company({
-    required this.id,
+    required this.companyId,
     required this.companyName,
     required this.dashboardName,
     required this.dashboardCode,
@@ -17,7 +17,7 @@ class Company {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'id': companyId,
       'companyName': companyName,
       'dashboardName': dashboardName,
       'dashboardCode': dashboardCode,
@@ -27,7 +27,7 @@ class Company {
 
   factory Company.fromJson(Map<String, dynamic> json) {
     return Company(
-      id: (json['id'] as String?) ?? emptyString,
+      companyId: (json['id'] as String?) ?? emptyString,
       companyName: (json['companyName'] as String?) ??
           (json['name'] as String?) ??
           emptyString,
