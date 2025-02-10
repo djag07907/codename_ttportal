@@ -1,3 +1,4 @@
+import 'package:codename_ttportal/licenses/model/company_model.dart';
 import 'package:codename_ttportal/licenses/model/license_model.dart';
 import 'package:codename_ttportal/factory/client_factory.dart';
 import 'package:codename_ttportal/factory/guess_factory.dart';
@@ -29,15 +30,42 @@ class LicensesService {
     return dataList.map((json) => License.fromJson(json)).toList();
   }
 
-  Future<LicensesData> getLicenses(
-      {int pageNumber = 1, int pageSize = 10}) async {
+  // Future<LicensesData> getLicenses(
+  //     {int pageNumber = 1, int pageSize = 10}) async {
+  //   final response = await authClient.get(
+  //     getCompanyLicensesPath,
+  //     queryParameters: {
+  //       'PageNumber': pageNumber,
+  //       'PageSize': pageSize,
+  //     },
+  //   );
+  //   return LicensesData.fromJson(response.data['data']);
+  // }
+
+  Future<List<Company>> getCompanies({
+    int pageNumber = 1,
+    int pageSize = 10,
+  }) async {
     final response = await authClient.get(
-      getCompanyLicensesPath,
+      getCompaniesPath,
       queryParameters: {
         'PageNumber': pageNumber,
         'PageSize': pageSize,
       },
     );
-    return LicensesData.fromJson(response.data['data']);
+    final dynamic responseData = response.data['data'];
+    List<dynamic> dataList;
+    if (responseData is List) {
+      dataList = responseData;
+    } else if (responseData is Map &&
+        responseData.containsKey(
+          'results',
+        )) {
+      dataList = responseData['results'];
+    } else {
+      dataList = [];
+    }
+
+    return dataList.map((json) => Company.fromJson(json)).toList();
   }
 }

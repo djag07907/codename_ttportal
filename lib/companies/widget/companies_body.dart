@@ -156,6 +156,7 @@ class _CompaniesDialog extends StatefulWidget {
 
 class __CompaniesDialogState extends State<_CompaniesDialog> {
   final _formKey = GlobalKey<FormState>();
+  late int companyId;
   late String companyName;
   late String dashboardName;
   late String dashboardCode;

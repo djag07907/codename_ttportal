@@ -9,12 +9,15 @@ class LicensesBloc extends BaseBloc<LicensesEvent, LicensesState> {
   LicensesBloc() : super(LicensesInitial()) {
     on<CreateLicenseEvent>(_onCreateLicense);
     on<FetchLicensesEvent>(_onFetchLicenses);
+    on<FetchCompaniesEvent>(_onFetchCompanies);
   }
 
   final LicensesService service = LicensesService();
 
   Future<void> _onCreateLicense(
-      CreateLicenseEvent event, Emitter<LicensesState> emit) async {
+    CreateLicenseEvent event,
+    Emitter<LicensesState> emit,
+  ) async {
     emit(
       LicensesInProgress(),
     );
@@ -23,6 +26,9 @@ class LicensesBloc extends BaseBloc<LicensesEvent, LicensesState> {
           await service.createLicense(license: event.license);
       emit(
         LicenseCreationSuccess(createdLicenses),
+      );
+      emit(
+        LicensesInProgress(),
       );
     } on DioException catch (error) {
       _handleDioException(
@@ -35,19 +41,37 @@ class LicensesBloc extends BaseBloc<LicensesEvent, LicensesState> {
     }
   }
 
+  Future<void> _onFetchCompanies(
+      FetchCompaniesEvent event, Emitter<LicensesState> emit) async {
+    emit(LicensesInProgress());
+    try {
+      final companies = await service.getCompanies(
+        pageNumber: event.pageNumber,
+        pageSize: event.pageSize,
+      );
+      emit(
+        CompaniesFetchSuccess(
+          companies,
+        ),
+      );
+    } on DioException catch (error) {
+      _handleDioException(
+        error,
+        emit,
+        (code) => emit(
+          CompaniesFetchError(code),
+        ),
+      );
+    }
+  }
+
   Future<void> _onFetchLicenses(
       FetchLicensesEvent event, Emitter<LicensesState> emit) async {
     emit(
       LicensesInProgress(),
     );
     try {
-      final licensesData = await service.getLicenses(
-        pageNumber: event.pageNumber,
-        pageSize: event.pageSize,
-      );
-      emit(
-        LicenseFetchSuccess(licensesData),
-      );
+      // IMLPEMENT LICENSES FETCH
     } on DioException catch (error) {
       _handleDioException(
         error,

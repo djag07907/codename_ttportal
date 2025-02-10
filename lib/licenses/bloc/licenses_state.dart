@@ -1,3 +1,4 @@
+import 'package:codename_ttportal/licenses/model/company_model.dart';
 import 'package:codename_ttportal/licenses/model/license_model.dart';
 
 sealed class LicensesState {}
@@ -30,6 +31,22 @@ class LicenseFetchSuccess extends LicensesState {
 class LicenseFetchError extends LicensesState {
   final int? error;
   LicenseFetchError(
+    this.error,
+  );
+}
+
+class CompaniesFetchSuccess extends LicensesState {
+  final List<Company> companies;
+
+  CompaniesFetchSuccess(
+    this.companies,
+  );
+}
+
+class CompaniesFetchError extends LicensesState {
+  final int? error;
+
+  CompaniesFetchError(
     this.error,
   );
 }

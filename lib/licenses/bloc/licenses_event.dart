@@ -24,7 +24,14 @@ class FetchLicensesEvent extends LicensesEvent {
     this.pageNumber = 1,
     this.pageSize = 10,
   });
+}
 
-  // @override
-  // List<Object> get props => [pageNumber, pageSize];
+class FetchCompaniesEvent extends LicensesEvent {
+  final int pageNumber;
+  final int pageSize;
+
+  const FetchCompaniesEvent({
+    this.pageNumber = 1,
+    this.pageSize = 10,
+  });
 }
