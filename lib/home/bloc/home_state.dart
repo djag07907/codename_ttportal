@@ -1,6 +1,4 @@
-import 'package:codename_ttportal/common/bloc/base_state.dart';
-import 'package:codename_ttportal/home/model/dashboard_model.dart';
-import 'package:codename_ttportal/home/model/user_details_model.dart';
+part of 'home_bloc.dart';
 
 sealed class HomeState extends BaseState {}
 
@@ -51,3 +49,5 @@ class UserDetailsFetchSuccess extends HomeState {
     this.companyId,
   );
 }
+
+class LicenseExpiredError extends HomeState {}

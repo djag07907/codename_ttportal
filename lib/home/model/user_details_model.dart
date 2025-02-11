@@ -31,4 +31,17 @@ class UserDetails {
       id: json['id'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'userName': userName,
+      'companyId': companyId,
+      'companyName': companyName,
+      'email': email,
+      'isAdmin': isAdmin,
+      'creationDate': creationDate.toIso8601String(),
+      'createdUserId': createdUserId,
+      'id': id,
+    };
+  }
 }

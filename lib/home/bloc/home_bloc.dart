@@ -1,28 +1,40 @@
 import 'package:codename_ttportal/common/bloc/base_bloc.dart';
-import 'package:codename_ttportal/home/bloc/home_event.dart';
-import 'package:codename_ttportal/home/bloc/home_state.dart';
+import 'package:codename_ttportal/common/bloc/base_state.dart';
+import 'package:codename_ttportal/home/model/dashboard_model.dart';
+import 'package:codename_ttportal/home/model/user_details_model.dart';
 import 'package:codename_ttportal/home/service/home_service.dart';
 import 'package:codename_ttportal/resources/constants.dart';
+import 'package:codename_ttportal/resources/error_codes.dart';
 import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
+part 'home_event.dart';
+part 'home_state.dart';
+
+class HomeBloc extends BaseBloc<HomeEvent, BaseState> {
+  final HomeService service = HomeService();
+
   HomeBloc() : super(HomeInitial()) {
     on<FetchUserDetailsById>(fetchUserDetailsById);
     on<FetchDashboardsByCompanyId>(fetchDashboardsByCompanyId);
   }
-  final HomeService service = HomeService();
 
   Future<void> fetchUserDetailsById(
     FetchUserDetailsById event,
-    Emitter<HomeState> emit,
+    Emitter<BaseState> emit,
   ) async {
     emit(
       HomeInProgress(),
     );
+    print("Fetching user details for user ID: ${event.userId}");
+
     try {
       final response = await service.getUserDetailsById(event.userId);
+      print("User details fetched: ${response.toJson()}");
       final companyId = response.companyId;
+      print("Company ID obtained: $companyId");
+
       emit(
         UserDetailsFetchSuccess(
           companyId,
@@ -39,15 +51,20 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
 
   Future<void> fetchDashboardsByCompanyId(
     FetchDashboardsByCompanyId event,
-    Emitter<HomeState> emit,
+    Emitter<BaseState> emit,
   ) async {
     emit(
       HomeInProgress(),
     );
+    print("Fetching dashboards for company ID: ${event.companyId}");
+
     try {
       final dashboards = await service.getDashboardsByCompanyId(
         event.companyId,
       );
+      print(
+          "Dashboards fetched: ${dashboards.map((d) => d.toJson()).toList()}");
+
       emit(
         DashboardsFetchSuccess(
           dashboards,
@@ -64,21 +81,26 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
 
   void _handleDioException(
     DioException error,
-    Emitter<HomeState> emit,
+    Emitter<BaseState> emit,
     Function(int) errorEmitter,
   ) {
+    if (error.response!.statusCode == errorCode401) {
+      emit(
+        LicenseExpiredError(),
+      );
+      print("License expired error (401) received.");
+    }
     if (error.response?.statusCode == null ||
         error.response!.statusCode! >= 500 ||
         error.response?.data?[responseCode] == null) {
-      emit(HomeError(500));
+      emit(
+        ServerClientError(),
+      );
     } else {
-      final code = error.response!.data[responseCode];
-      if (code is String) {
-        int errorCode = int.tryParse(code) ?? 500;
-        errorEmitter(errorCode);
-      } else {
-        errorEmitter(code);
-      }
+      errorEmitter(
+        error.response!.data[responseCode],
+      );
+      print("Error occurred: ${error.response!.data[responseCode]}");
     }
   }
 }
