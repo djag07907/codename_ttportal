@@ -1,33 +1,44 @@
-import 'package:codename_ttportal/user/model/company_model.dart';
-import 'package:codename_ttportal/user/model/user_model.dart';
+part of 'user_bloc.dart';
 
-sealed class UserState {}
+sealed class UserState extends BaseState {}
 
-class UserInitial extends UserState {}
+final class UserInitial extends UserState {}
 
-class UserOperationInProgress extends UserState {}
+final class UserInProgress extends UserState {}
 
-class UserCreationSuccess extends UserState {
+final class UserCreationSuccess extends UserState {
   final User user;
-  UserCreationSuccess(this.user);
+
+  UserCreationSuccess(
+    this.user,
+  );
 }
 
-class UserCreationError extends UserState {
+final class UserCreationError extends UserState {
   final int? error;
-  UserCreationError(this.error);
+
+  UserCreationError(
+    this.error,
+  );
 }
 
-class UsersFetchSuccess extends UserState {
+final class UsersFetchSuccess extends UserState {
   final List<User> users;
-  UsersFetchSuccess(this.users);
+
+  UsersFetchSuccess(
+    this.users,
+  );
 }
 
-class UsersFetchError extends UserState {
+final class UsersFetchError extends UserState {
   final int? error;
-  UsersFetchError(this.error);
+
+  UsersFetchError(
+    this.error,
+  );
 }
 
-class CompaniesFetchSuccess extends UserState {
+final class CompaniesFetchSuccess extends UserState {
   final List<Company> companies;
 
   CompaniesFetchSuccess(
@@ -35,7 +46,7 @@ class CompaniesFetchSuccess extends UserState {
   );
 }
 
-class CompaniesFetchError extends UserState {
+final class CompaniesFetchError extends UserState {
   final int? error;
 
   CompaniesFetchError(

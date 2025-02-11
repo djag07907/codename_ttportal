@@ -10,11 +10,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Determine locale based on platform (web vs. mobile/desktop)
   String locale;
   if (kIsWeb) {
-    // On web, use the locale from platformDispatcher
-    // If needed, import dart:ui to use window if using older versions.
     locale = WidgetsBinding.instance.platformDispatcher.locale.languageCode;
   } else {
     locale = Platform.localeName.split('_').first;

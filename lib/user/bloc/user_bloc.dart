@@ -1,25 +1,31 @@
 import 'package:codename_ttportal/common/bloc/base_bloc.dart';
-import 'package:codename_ttportal/user/bloc/user_event.dart';
-import 'package:codename_ttportal/user/bloc/user_state.dart';
+import 'package:codename_ttportal/common/bloc/base_state.dart';
+import 'package:codename_ttportal/resources/constants.dart';
+import 'package:codename_ttportal/user/model/company_model.dart';
+import 'package:codename_ttportal/user/model/user_model.dart';
 import 'package:codename_ttportal/user/service/user_service.dart';
 import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UserBloc extends BaseBloc<UserEvent, UserState> {
-  UserBloc() : super(UserInitial()) {
-    on<CreateUserEvent>(_onCreateUser);
-    on<FetchUsersEvent>(_onFetchUsers);
-    on<FetchCompaniesEvent>(_onFetchCompanies);
-  }
+part 'user_event.dart';
+part 'user_state.dart';
 
+class UserBloc extends BaseBloc<UserEvent, BaseState> {
   final UserService service = UserService();
 
-  Future<void> _onCreateUser(
+  UserBloc() : super(UserInitial()) {
+    on<CreateUserEvent>(_createUser);
+    on<FetchUsersEvent>(_fetchUsers);
+    on<FetchCompaniesEvent>(_fetchCompanies);
+  }
+
+  Future<void> _createUser(
     CreateUserEvent event,
-    Emitter<UserState> emit,
+    Emitter<BaseState> emit,
   ) async {
     emit(
-      UserOperationInProgress(),
+      UserInProgress(),
     );
     try {
       final createdUser = await service.createUser(
@@ -39,10 +45,12 @@ class UserBloc extends BaseBloc<UserEvent, UserState> {
     }
   }
 
-  Future<void> _onFetchUsers(
-      FetchUsersEvent event, Emitter<UserState> emit) async {
+  Future<void> _fetchUsers(
+    FetchUsersEvent event,
+    Emitter<BaseState> emit,
+  ) async {
     emit(
-      UserOperationInProgress(),
+      UserInProgress(),
     );
     try {
       final users = await service.getUsers(
@@ -65,12 +73,12 @@ class UserBloc extends BaseBloc<UserEvent, UserState> {
     }
   }
 
-  Future<void> _onFetchCompanies(
+  Future<void> _fetchCompanies(
     FetchCompaniesEvent event,
-    Emitter<UserState> emit,
+    Emitter<BaseState> emit,
   ) async {
     emit(
-      UserOperationInProgress(),
+      UserInProgress(),
     );
     try {
       final companies = await service.getCompanies(
@@ -95,15 +103,19 @@ class UserBloc extends BaseBloc<UserEvent, UserState> {
 
   void _handleDioException(
     DioException error,
-    Emitter<UserState> emit,
+    Emitter<BaseState> emit,
     Function(int) errorEmitter,
   ) {
     if (error.response?.statusCode == null ||
         error.response!.statusCode! >= 500 ||
-        error.response?.data?['code'] == null) {
-      emit(UserCreationError(500));
+        error.response?.data?[responseCode] == null) {
+      emit(
+        ServerClientError(),
+      );
     } else {
-      errorEmitter(error.response!.data['code']);
+      errorEmitter(
+        error.response!.data[responseCode],
+      );
     }
   }
 }

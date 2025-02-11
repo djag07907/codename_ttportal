@@ -25,7 +25,6 @@ class UserService {
         },
       ),
     );
-    // TODO: Implement created emails checking
     if (response.data['code'] != 200 && response.data['code'] != 201) {
       throw DioException(
           requestOptions: response.requestOptions,

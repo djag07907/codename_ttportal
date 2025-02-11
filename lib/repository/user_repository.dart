@@ -1,112 +1,69 @@
 import 'package:codename_ttportal/repository/respository_constants.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository {
-  final FlutterSecureStorage storage;
-
-  UserRepository() : storage = const FlutterSecureStorage();
-
-  UserRepository.withStorage(
-    this.storage,
-  );
-
   Future<void> clear() async {
-    await storage.deleteAll();
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
   }
 
   Future<String> getToken() async {
-    return (await storage.read(
-          key: token,
-        )) ??
-        emptyString;
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(token) ?? emptyString;
   }
 
-  Future<void> setToken(
-    final String tokenValue,
-  ) async {
-    await storage.write(
-      key: token,
-      value: tokenValue,
-    );
+  Future<void> setToken(String tokenValue) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(token, tokenValue);
   }
 
   Future<String> getUserEmail() async {
-    return (await storage.read(
-          key: userEmail,
-        )) ??
-        emptyString;
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(userEmail) ?? emptyString;
   }
 
-  Future<void> setUserEmail(
-    final String userEmailValue,
-  ) async {
-    await storage.write(
-      key: userEmail,
-      value: userEmailValue,
-    );
+  Future<void> setUserEmail(String userEmailValue) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(userEmail, userEmailValue);
   }
 
   Future<String> getUserFullName() async {
-    return (await storage.read(
-          key: userFullName,
-        )) ??
-        emptyString;
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(userFullName) ?? emptyString;
   }
 
-  Future<void> setUserFullName(
-    final String userFullNameValue,
-  ) async {
-    await storage.write(
-      key: userFullName,
-      value: userFullNameValue,
-    );
+  Future<void> setUserFullName(String userFullNameValue) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(userFullName, userFullNameValue);
   }
 
   Future<String> getUserPhoneNumber() async {
-    return (await storage.read(
-          key: userPhoneNumber,
-        )) ??
-        emptyString;
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(userPhoneNumber) ?? emptyString;
   }
 
-  Future<void> setUserPhoneNumber(
-    final String userPhoneNumberValue,
-  ) async {
-    await storage.write(
-      key: userPhoneNumber,
-      value: userPhoneNumberValue,
-    );
+  Future<void> setUserPhoneNumber(String userPhoneNumberValue) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(userPhoneNumber, userPhoneNumberValue);
   }
 
   Future<String> getRememberUser() async {
-    return (await storage.read(
-          key: rememberUser,
-        )) ??
-        emptyString;
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(rememberUser) ?? emptyString;
   }
 
-  Future<void> setRememberUser(
-    final String companyValue,
-  ) async {
-    await storage.write(
-      key: rememberUser,
-      value: companyValue,
-    );
+  Future<void> setRememberUser(String rememberUserValue) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(rememberUser, rememberUserValue);
   }
 
   Future<String> getUserIsSession() async {
-    return (await storage.read(
-          key: userIsSession,
-        )) ??
-        emptyString;
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(userIsSession) ?? emptyString;
   }
 
-  Future<void> setUserIsSession(
-    final String isSessionValue,
-  ) async {
-    await storage.write(
-      key: userIsSession,
-      value: isSessionValue,
-    );
+  Future<void> setUserIsSession(String isSessionValue) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(userIsSession, isSessionValue);
   }
 }
