@@ -2,6 +2,7 @@ import 'package:codename_ttportal/dashboard/bloc/dashboards_bloc.dart';
 import 'package:codename_ttportal/dashboard/bloc/dashboards_event.dart';
 import 'package:codename_ttportal/dashboard/bloc/dashboards_state.dart';
 import 'package:codename_ttportal/dashboard/model/dashboard_model.dart';
+import 'package:codename_ttportal/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -68,7 +69,9 @@ class _DashboardBodyState extends State<DashboardBody> {
               Navigator.pop(context);
               _loadDashboards();
             },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: red,
+            ),
             child: const Text('Delete'),
           ),
         ],
@@ -80,11 +83,11 @@ class _DashboardBodyState extends State<DashboardBody> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: transparent,
         title: const Text(
           'Manage Dashboards',
           style: TextStyle(
-            color: Colors.black,
+            color: black,
             fontWeight: FontWeight.bold,
           ),
         ),

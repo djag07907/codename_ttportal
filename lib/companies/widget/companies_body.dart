@@ -2,6 +2,7 @@ import 'package:codename_ttportal/companies/bloc/companies_bloc.dart';
 import 'package:codename_ttportal/companies/bloc/companies_event.dart';
 import 'package:codename_ttportal/companies/bloc/companies_state.dart';
 import 'package:codename_ttportal/companies/model/company_model.dart';
+import 'package:codename_ttportal/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,7 +48,9 @@ class _CompaniesBodyState extends State<CompaniesBody> {
               //TODO: Implement deletion logic
               Navigator.pop(context);
             },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: red,
+            ),
             child: const Text('Delete'),
           ),
         ],
@@ -72,11 +75,11 @@ class _CompaniesBodyState extends State<CompaniesBody> {
         title: const Text(
           'Manage Companies',
           style: TextStyle(
-            color: Colors.black,
+            color: black,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: transparent,
       ),
       body: BlocListener<CompanyBloc, CompanyState>(
         listener: (context, state) {

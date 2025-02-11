@@ -3,6 +3,7 @@ import 'package:codename_ttportal/licenses/bloc/licenses_event.dart';
 import 'package:codename_ttportal/licenses/bloc/licenses_state.dart';
 import 'package:codename_ttportal/licenses/model/company_model.dart';
 import 'package:codename_ttportal/licenses/model/license_model.dart';
+import 'package:codename_ttportal/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,11 +55,11 @@ class _LicensesBodyState extends State<LicensesBody> {
         title: const Text(
           'Manage Licenses',
           style: TextStyle(
-            color: Colors.black,
+            color: black,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: transparent,
       ),
       body: BlocListener<LicensesBloc, LicensesState>(
         listener: (context, state) {

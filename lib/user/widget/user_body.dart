@@ -1,5 +1,8 @@
 import 'package:codename_ttportal/common/bloc/base_state.dart';
+import 'package:codename_ttportal/common/loader/loader.dart';
 import 'package:codename_ttportal/common/user_dialog.dart';
+import 'package:codename_ttportal/repository/respository_constants.dart';
+import 'package:codename_ttportal/resources/colors.dart';
 import 'package:codename_ttportal/user/bloc/user_bloc.dart';
 import 'package:codename_ttportal/user/model/user_model.dart';
 import 'package:flutter/material.dart';
@@ -14,19 +17,18 @@ class UserBody extends StatefulWidget {
 
 class _UserBodyState extends State<UserBody> {
   late UserBloc _userBloc;
+  List<User> users = [];
 
   @override
   void initState() {
     super.initState();
     _userBloc = context.read<UserBloc>();
+    _fetchUsers();
+  }
+
+  void _fetchUsers() {
     _userBloc.add(
       const FetchUsersEvent(
-        pageNumber: 1,
-        pageSize: 100,
-      ),
-    );
-    _userBloc.add(
-      const FetchCompaniesEvent(
         pageNumber: 1,
         pageSize: 100,
       ),
@@ -39,7 +41,9 @@ class _UserBodyState extends State<UserBody> {
       builder: (context) => UserDialog(
         onSave: (User user) {
           context.read<UserBloc>().add(
-                CreateUserEvent(user),
+                CreateUserEvent(
+                  user,
+                ),
               );
         },
       ),
@@ -52,15 +56,14 @@ class _UserBodyState extends State<UserBody> {
       builder: (context) => UserDialog(
         user: user,
         onSave: (User updatedUser) {
-          // context.read<UserBloc>().add(UpdateUserEvent(updatedUser));
+          // TODO: context.read<UserBloc>().add(UpdateUserEvent(updatedUser));
         },
       ),
     );
   }
 
   void _deleteUser(String userId) {
-    // Handle user deletion logic here
-    // context.read<UserBloc>().add(DeleteUserEvent(userId));
+    // TODO: context.read<UserBloc>().add(DeleteUserEvent(userId));
   }
 
   @override
@@ -76,31 +79,36 @@ class _UserBodyState extends State<UserBody> {
         title: const Text(
           'Management Users',
           style: TextStyle(
-            color: Colors.black,
+            color: black,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: transparent,
       ),
       body: BlocListener<UserBloc, BaseState>(
         listener: (context, state) {
           if (state is UserCreationSuccess) {
-            // Fetch users again after a user is created
-            context.read<UserBloc>().add(const FetchUsersEvent());
+            _fetchUsers();
           }
           if (state is UsersFetchError) {
-            // Show an error message if fetching users fails
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Error: ${state.error}')),
+              SnackBar(
+                content: Text('Error: ${state.error}'),
+              ),
             );
           }
         },
         child: BlocBuilder<UserBloc, BaseState>(
           builder: (context, state) {
+            if (state is UserInProgress) {
+              return const Loader();
+            }
             if (state is UsersFetchSuccess) {
-              final users = state.users;
+              users = state.users;
               if (users.isEmpty) {
-                return const Center(child: Text('There is no data yet.'));
+                return const Center(
+                  child: Text('There is no data yet.'),
+                );
               }
               return ListView.builder(
                 itemCount: users.length,
@@ -118,17 +126,12 @@ class _UserBodyState extends State<UserBody> {
                         ),
                         IconButton(
                           icon: const Icon(Icons.delete),
-                          onPressed: () => _deleteUser(user.id ?? ''),
+                          onPressed: () => _deleteUser(user.id ?? emptyString),
                         ),
                       ],
                     ),
                   );
                 },
-              );
-            }
-            if (state is UsersFetchError) {
-              return Center(
-                child: Text('Error: ${state.error}'),
               );
             }
             return const Center(

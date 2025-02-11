@@ -1,5 +1,6 @@
 import 'package:codename_ttportal/companies/companies_screen.dart';
 import 'package:codename_ttportal/licenses/licenses_screen.dart';
+import 'package:codename_ttportal/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:codename_ttportal/dashboard/dashboard_screen.dart';
 import 'package:codename_ttportal/user/user_screen.dart';
@@ -36,7 +37,7 @@ class _AdminBodyState extends State<AdminBody> {
             child: Column(
               children: [
                 Container(
-                  color: Colors.white,
+                  color: white,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Image.asset(
@@ -49,12 +50,12 @@ class _AdminBodyState extends State<AdminBody> {
                 ListTile(
                   leading: const Icon(
                     Icons.people,
-                    color: Colors.white,
+                    color: white,
                   ),
                   title: const Text(
                     'Manage Users',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: white,
                     ),
                   ),
                   onTap: () => setState(
@@ -64,12 +65,12 @@ class _AdminBodyState extends State<AdminBody> {
                 ListTile(
                   leading: const Icon(
                     Icons.business_center,
-                    color: Colors.white,
+                    color: white,
                   ),
                   title: const Text(
                     'Manage Companies',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: white,
                     ),
                   ),
                   onTap: () => setState(
@@ -79,12 +80,12 @@ class _AdminBodyState extends State<AdminBody> {
                 ListTile(
                   leading: const Icon(
                     Icons.phonelink_setup,
-                    color: Colors.white,
+                    color: white,
                   ),
                   title: const Text(
                     'Manage Licenses',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: white,
                     ),
                   ),
                   onTap: () => setState(
@@ -94,12 +95,12 @@ class _AdminBodyState extends State<AdminBody> {
                 ListTile(
                   leading: const Icon(
                     Icons.dashboard,
-                    color: Colors.white,
+                    color: white,
                   ),
                   title: const Text(
                     'Manage Dashboards',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: white,
                     ),
                   ),
                   onTap: () => setState(
@@ -114,7 +115,7 @@ class _AdminBodyState extends State<AdminBody> {
               children: [
                 Container(
                   height: 60,
-                  color: Colors.white,
+                  color: white,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -123,7 +124,9 @@ class _AdminBodyState extends State<AdminBody> {
                         child: Text(
                           'Welcome, ${widget.userName}',
                           style: const TextStyle(
-                              color: Colors.black, fontSize: 18),
+                            color: black,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                       IconButton(

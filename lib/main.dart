@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+import 'package:codename_ttportal/resources/colors.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:codename_ttportal/routes/landing_constants.dart';
@@ -52,15 +53,15 @@ class MyApp extends StatelessWidget {
       title: 'TT Portal',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: white,
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.blue,
-          foregroundColor: Colors.white,
+          backgroundColor: tectransblue,
+          foregroundColor: white,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
+            backgroundColor: tectransblue,
+            foregroundColor: white,
           ),
         ),
       ),

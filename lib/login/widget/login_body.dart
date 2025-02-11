@@ -1,8 +1,11 @@
 import 'package:codename_ttportal/admin/admin_screen.dart';
+import 'package:codename_ttportal/common/bloc/base_state.dart';
+import 'package:codename_ttportal/common/loader/loader.dart';
 import 'package:codename_ttportal/home/home_screen.dart';
 import 'package:codename_ttportal/login/bloc/login_bloc.dart';
 import 'package:codename_ttportal/login/bloc/login_event.dart';
 import 'package:codename_ttportal/login/bloc/login_state.dart';
+import 'package:codename_ttportal/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -106,8 +109,8 @@ class _LoginBodyState extends State<LoginBody> {
                                 ElevatedButton(
                                   onPressed: _handleSignIn,
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF2C37C6),
-                                    foregroundColor: Colors.white,
+                                    backgroundColor: tectransblue,
+                                    foregroundColor: white,
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 16),
                                     shape: RoundedRectangleBorder(
@@ -129,7 +132,7 @@ class _LoginBodyState extends State<LoginBody> {
                                     child: Text(
                                       _errorMessage!,
                                       style: const TextStyle(
-                                        color: Colors.red,
+                                        color: red,
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
@@ -140,7 +143,7 @@ class _LoginBodyState extends State<LoginBody> {
                                   child: const Text(
                                     'Forgot Password?',
                                     style: TextStyle(
-                                      color: Color(0xFF2C37C6),
+                                      color: tectransblue,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -151,6 +154,14 @@ class _LoginBodyState extends State<LoginBody> {
                         ],
                       ),
                     ),
+                  ),
+                  BlocBuilder<LoginBloc, BaseState>(
+                    builder: (context, state) {
+                      if (state is LoginInProgress) {
+                        return const Loader();
+                      }
+                      return Container();
+                    },
                   ),
                 ],
               ),
