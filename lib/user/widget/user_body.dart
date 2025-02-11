@@ -77,7 +77,7 @@ class _UserBodyState extends State<UserBody> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Management Users',
+          'Users Management',
           style: TextStyle(
             color: black,
             fontWeight: FontWeight.bold,
