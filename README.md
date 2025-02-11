@@ -4,12 +4,6 @@ PBI Dashboard/User Management portal
 
 ## MVP - UX pending
 
-## Hard-coded data
-
-## Local storage
-
-### creds: daniel.alvarez@soas.com - So452024#
-
 ## Getting Started
 
 This project is a starting point for a Flutter application.
