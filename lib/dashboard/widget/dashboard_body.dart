@@ -90,7 +90,7 @@ class _DashboardBodyState extends State<DashboardBody> {
       appBar: AppBar(
         backgroundColor: transparent,
         title: const Text(
-          'Manage Dashboards',
+          'Dashboards Management',
           style: TextStyle(
             color: black,
             fontWeight: FontWeight.bold,

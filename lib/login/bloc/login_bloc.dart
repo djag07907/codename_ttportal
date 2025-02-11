@@ -1,27 +1,32 @@
 import 'package:codename_ttportal/common/bloc/base_bloc.dart';
-import 'package:codename_ttportal/login/bloc/login_event.dart';
-import 'package:codename_ttportal/login/bloc/login_state.dart';
+import 'package:codename_ttportal/common/bloc/base_state.dart';
 import 'package:codename_ttportal/login/service/login_service.dart';
 import 'package:codename_ttportal/repository/respository_constants.dart';
 import 'package:codename_ttportal/repository/user_repository.dart';
 import 'package:codename_ttportal/resources/constants.dart';
 import 'package:codename_ttportal/login/model/user.dart';
 import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
+part 'login_event.dart';
+part 'login_state.dart';
+
+class LoginBloc extends BaseBloc<LoginEvent, BaseState> {
+  final LoginService service = LoginService();
+
   LoginBloc() : super(LoginInitial()) {
     on<LoginOnLoad>(loginOnLoad);
     on<LoginWithEmailPassword>(loginWithEmailPassword);
   }
 
-  final LoginService service = LoginService();
-
   Future<void> loginOnLoad(
     LoginOnLoad event,
-    Emitter<LoginState> emit,
+    Emitter<BaseState> emit,
   ) async {
-    emit(LoginInProgress());
+    emit(
+      LoginInProgress(),
+    );
     final String rememberUser = await UserRepository().getRememberUser();
     final String userEmail = (rememberUser == trueString)
         ? await UserRepository().getUserEmail()
@@ -32,7 +37,7 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
 
   Future<void> loginWithEmailPassword(
     LoginWithEmailPassword event,
-    Emitter<LoginState> emit,
+    Emitter<BaseState> emit,
   ) async {
     emit(
       LoginInProgress(),
@@ -69,13 +74,15 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
 
   void _handleDioException(
     DioException error,
-    Emitter<LoginState> emit,
+    Emitter<BaseState> emit,
     Function(int) errorEmitter,
   ) {
     if (error.response?.statusCode == null ||
         error.response!.statusCode! >= 500 ||
         error.response?.data?[responseCode] == null) {
-      emit(LoginError(500));
+      emit(
+        ServerClientError(),
+      );
     } else {
       errorEmitter(error.response!.data[responseCode]);
     }

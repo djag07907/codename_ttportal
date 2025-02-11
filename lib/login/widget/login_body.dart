@@ -3,8 +3,6 @@ import 'package:codename_ttportal/common/bloc/base_state.dart';
 import 'package:codename_ttportal/common/loader/loader.dart';
 import 'package:codename_ttportal/home/home_screen.dart';
 import 'package:codename_ttportal/login/bloc/login_bloc.dart';
-import 'package:codename_ttportal/login/bloc/login_event.dart';
-import 'package:codename_ttportal/login/bloc/login_state.dart';
 import 'package:codename_ttportal/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,10 +20,17 @@ class _LoginBodyState extends State<LoginBody> {
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
   String? _errorMessage;
+  late LoginBloc _loginBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _loginBloc = context.read<LoginBloc>();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginBloc, LoginState>(
+    return BlocListener<LoginBloc, BaseState>(
       listener: (context, state) {
         if (state is LoginSuccess) {
           if (state.user.isAdmin) {
@@ -82,7 +87,7 @@ class _LoginBodyState extends State<LoginBody> {
                                 .headlineSmall!
                                 .copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: const Color(0xFF2C37C6),
+                                  color: tectransblue,
                                 ),
                             textAlign: TextAlign.center,
                           ),
@@ -189,7 +194,7 @@ class _LoginBodyState extends State<LoginBody> {
         decoration: InputDecoration(
           labelText: label,
           labelStyle: TextStyle(color: Colors.grey[600]),
-          prefixIcon: Icon(icon, color: const Color(0xFF2C37C6)),
+          prefixIcon: Icon(icon, color: tectransblue),
           suffixIcon: isPassword
               ? IconButton(
                   icon: Icon(
@@ -209,8 +214,10 @@ class _LoginBodyState extends State<LoginBody> {
           ),
           filled: true,
           fillColor: Colors.grey[100],
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 16.0,
+          ),
         ),
         validator: (value) {
           if (value == null || value.isEmpty) {

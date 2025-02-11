@@ -1,5 +1,4 @@
-import 'package:codename_ttportal/common/bloc/base_state.dart';
-import 'package:codename_ttportal/login/model/user.dart';
+part of 'login_bloc.dart';
 
 sealed class LoginState extends BaseState {}
 
