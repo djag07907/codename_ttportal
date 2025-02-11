@@ -125,11 +125,17 @@ class _CompaniesBodyState extends State<CompaniesBody> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.edit),
+                          icon: const Icon(
+                            Icons.edit,
+                            color: tectransblue,
+                          ),
                           onPressed: () => _editCompany(company),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.delete),
+                          icon: const Icon(
+                            Icons.remove_circle,
+                            color: red,
+                          ),
                           onPressed: () => _deleteCompany(company),
                         ),
                       ],
@@ -160,7 +166,22 @@ class _CompaniesBodyState extends State<CompaniesBody> {
             ),
           );
         },
-        child: const Icon(Icons.add),
+        backgroundColor: tectransblue,
+        elevation: 6,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            20,
+          ),
+          side: const BorderSide(
+            color: white,
+            width: 2,
+          ),
+        ),
+        child: const Icon(
+          Icons.add_business,
+          size: 30,
+          color: white,
+        ),
       ),
     );
   }

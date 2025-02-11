@@ -2,6 +2,7 @@ import 'package:codename_ttportal/common/utils/token_decryptor.dart';
 import 'package:codename_ttportal/home/bloc/home_bloc.dart';
 import 'package:codename_ttportal/home/bloc/home_event.dart';
 import 'package:codename_ttportal/home/bloc/home_state.dart';
+import 'package:codename_ttportal/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:codename_ttportal/login/model/user.dart';
 import 'package:codename_ttportal/common/dashboard_card.dart';
@@ -54,12 +55,7 @@ class _HomeBodyState extends State<HomeBody> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const LoginScreen(),
-              ),
-            ),
+            onPressed: () => _logout(context),
           ),
         ],
       ),
@@ -110,6 +106,18 @@ class _HomeBodyState extends State<HomeBody> {
             );
           },
         ),
+      ),
+    );
+  }
+
+  void _logout(BuildContext context) async {
+    final userRepository = UserRepository();
+    await userRepository.clear();
+    print('User data cleared successfully.');
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LoginScreen(),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:codename_ttportal/companies/companies_screen.dart';
 import 'package:codename_ttportal/licenses/licenses_screen.dart';
+import 'package:codename_ttportal/repository/user_repository.dart';
 import 'package:codename_ttportal/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:codename_ttportal/dashboard/dashboard_screen.dart';
@@ -10,9 +11,9 @@ class AdminBody extends StatefulWidget {
   final String userName;
 
   const AdminBody({
-    Key? key,
+    super.key,
     required this.userName,
-  }) : super(key: key);
+  });
 
   @override
   _AdminBodyState createState() => _AdminBodyState();
@@ -22,7 +23,9 @@ class _AdminBodyState extends State<AdminBody> {
   Widget _currentContent = const Center(
     child: Text(
       'Select an option from the menu',
-      style: TextStyle(fontSize: 18),
+      style: TextStyle(
+        fontSize: 18,
+      ),
     ),
   );
 
@@ -120,7 +123,9 @@ class _AdminBodyState extends State<AdminBody> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                        ),
                         child: Text(
                           'Welcome, ${widget.userName}',
                           style: const TextStyle(
@@ -145,7 +150,10 @@ class _AdminBodyState extends State<AdminBody> {
     );
   }
 
-  void _logout(BuildContext context) {
+  void _logout(BuildContext context) async {
+    final userRepository = UserRepository();
+    await userRepository.clear();
+    print('User data cleared successfully.');
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

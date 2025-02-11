@@ -127,7 +127,22 @@ class _LicensesBodyState extends State<LicensesBody> {
             _createLicense(state.companies);
           }
         },
-        child: const Icon(Icons.add),
+        backgroundColor: tectransblue,
+        elevation: 6,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            20,
+          ),
+          side: const BorderSide(
+            color: white,
+            width: 2,
+          ),
+        ),
+        child: const Icon(
+          Icons.addchart,
+          size: 30,
+          color: white,
+        ),
       ),
     );
   }

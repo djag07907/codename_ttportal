@@ -8,6 +8,7 @@ import 'package:codename_ttportal/user/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+//TODO: FIX CREATE ADMIN
 class UserBody extends StatefulWidget {
   const UserBody({super.key});
 
@@ -39,12 +40,13 @@ class _UserBodyState extends State<UserBody> {
     showDialog(
       context: context,
       builder: (context) => UserDialog(
+        userBloc: _userBloc,
         onSave: (User user) {
-          context.read<UserBloc>().add(
-                CreateUserEvent(
-                  user,
-                ),
-              );
+          _userBloc.add(
+            CreateUserEvent(
+              user,
+            ),
+          );
         },
       ),
     );
@@ -54,6 +56,7 @@ class _UserBodyState extends State<UserBody> {
     showDialog(
       context: context,
       builder: (context) => UserDialog(
+        userBloc: _userBloc,
         user: user,
         onSave: (User updatedUser) {
           // TODO: context.read<UserBloc>().add(UpdateUserEvent(updatedUser));
@@ -121,11 +124,17 @@ class _UserBodyState extends State<UserBody> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.edit),
+                          icon: const Icon(
+                            Icons.edit,
+                            color: tectransblue,
+                          ),
                           onPressed: () => _editUser(user),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.delete),
+                          icon: const Icon(
+                            Icons.remove_circle,
+                            color: red,
+                          ),
                           onPressed: () => _deleteUser(user.id ?? emptyString),
                         ),
                       ],
@@ -142,7 +151,22 @@ class _UserBodyState extends State<UserBody> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addUser,
-        child: const Icon(Icons.add),
+        backgroundColor: tectransblue,
+        elevation: 6,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            20,
+          ),
+          side: const BorderSide(
+            color: white,
+            width: 2,
+          ),
+        ),
+        child: const Icon(
+          Icons.person_add_alt,
+          size: 30,
+          color: white,
+        ),
       ),
     );
   }

@@ -133,11 +133,17 @@ class _DashboardBodyState extends State<DashboardBody> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.edit),
+                          icon: const Icon(
+                            Icons.edit,
+                            color: tectransblue,
+                          ),
                           onPressed: () => _editDashboard(dashboards[index]),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.delete),
+                          icon: const Icon(
+                            Icons.remove_circle,
+                            color: red,
+                          ),
                           onPressed: () => _deleteDashboard(dashboards[index]),
                         ),
                       ],
@@ -157,7 +163,22 @@ class _DashboardBodyState extends State<DashboardBody> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addDashboard,
-        child: const Icon(Icons.add),
+        backgroundColor: tectransblue,
+        elevation: 6,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            20,
+          ),
+          side: const BorderSide(
+            color: white,
+            width: 2,
+          ),
+        ),
+        child: const Icon(
+          Icons.dashboard_customize,
+          size: 30,
+          color: white,
+        ),
       ),
     );
   }

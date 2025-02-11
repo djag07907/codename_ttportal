@@ -1,4 +1,6 @@
+import 'package:codename_ttportal/common/loader/loader.dart';
 import 'package:codename_ttportal/repository/respository_constants.dart';
+import 'package:codename_ttportal/user/bloc/user_bloc.dart';
 import 'package:codename_ttportal/user/model/company_model.dart';
 import 'package:codename_ttportal/user/model/user_model.dart';
 import 'package:codename_ttportal/user/service/user_service.dart';
@@ -7,11 +9,13 @@ import 'package:flutter/material.dart';
 class UserDialog extends StatefulWidget {
   final User? user;
   final Function(User) onSave;
+  final UserBloc userBloc;
 
   const UserDialog({
     super.key,
     this.user,
     required this.onSave,
+    required this.userBloc,
   });
 
   @override
@@ -20,15 +24,14 @@ class UserDialog extends StatefulWidget {
 
 class _UserDialogState extends State<UserDialog> {
   final _formKey = GlobalKey<FormState>();
-
   late String username;
   late String email;
   late String password;
   late bool isAdmin;
   late String? selectedCompanyId;
-
   List<Company> companies = [];
   bool isLoadingCompanies = true;
+  bool _obscurePassword = true;
 
   @override
   void initState() {
@@ -37,7 +40,7 @@ class _UserDialogState extends State<UserDialog> {
     email = widget.user?.email ?? emptyString;
     password = widget.user?.password ?? emptyString;
     isAdmin = widget.user?.isAdmin ?? false;
-    selectedCompanyId = widget.user?.companyId ?? emptyString;
+    selectedCompanyId = widget.user?.companyId;
     _fetchCompanies();
   }
 
@@ -50,7 +53,7 @@ class _UserDialogState extends State<UserDialog> {
         pageNumber: 1,
         pageSize: 100,
       );
-    } catch (e) {
+    } catch (error) {
       // Handle errors if needed
     } finally {
       setState(() {
@@ -62,7 +65,6 @@ class _UserDialogState extends State<UserDialog> {
   void _save() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-
       final user = User(
         userName: username,
         email: email,
@@ -72,7 +74,6 @@ class _UserDialogState extends State<UserDialog> {
         companyName: emptyString,
         id: widget.user?.id ?? DateTime.now().toString(),
       );
-
       widget.onSave(user);
       Navigator.pop(context);
     }
@@ -82,7 +83,6 @@ class _UserDialogState extends State<UserDialog> {
   Widget build(BuildContext context) {
     final companyLabel =
         isAdmin ? 'Select Company (optional):' : 'Select Company (mandatory):';
-
     return AlertDialog(
       title: Text(widget.user == null ? 'Add User' : 'Edit User'),
       content: SingleChildScrollView(
@@ -118,11 +118,23 @@ class _UserDialogState extends State<UserDialog> {
               const SizedBox(height: 16),
               TextFormField(
                 initialValue: password,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Password',
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                  ),
                 ),
-                obscureText: true,
+                obscureText: _obscurePassword,
                 validator: (value) => (value == null || value.isEmpty)
                     ? 'Please enter a password'
                     : null,
@@ -135,29 +147,28 @@ class _UserDialogState extends State<UserDialog> {
                 onChanged: (value) {
                   setState(() {
                     isAdmin = value;
+                    if (isAdmin) {
+                      selectedCompanyId = null;
+                    }
                   });
                 },
               ),
               const SizedBox(height: 16),
               Text(
                 companyLabel,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               isLoadingCompanies
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
+                  ? const Loader()
                   : DropdownButtonFormField<String>(
                       isExpanded: true,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                       ),
                       hint: const Text("Choose a company"),
-                      value: isAdmin
-                          ? selectedCompanyId
-                          : (selectedCompanyId?.isEmpty ?? true)
-                              ? null
-                              : selectedCompanyId,
+                      value: isAdmin ? null : selectedCompanyId,
                       items: companies.map((company) {
                         return DropdownMenuItem<String>(
                           value: company.companyId.toString(),

@@ -5,3 +5,4 @@ const white = Colors.white;
 const black = Colors.black;
 const transparent = Colors.transparent;
 const red = Colors.red;
+const backgroundColor = Color(0xFFF5F6F9);

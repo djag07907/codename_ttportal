@@ -57,7 +57,7 @@ class _LoginBodyState extends State<LoginBody> {
         }
       },
       child: Scaffold(
-        backgroundColor: const Color(0xFFF5F6F9),
+        backgroundColor: backgroundColor,
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -70,93 +70,90 @@ class _LoginBodyState extends State<LoginBody> {
                     height: 80,
                   ),
                   const SizedBox(height: 32),
-                  Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                  Container(
+                    constraints: const BoxConstraints(
+                      maxWidth: 600,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            "Welcome!",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: tectransblue,
-                                ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 15),
-                          const SizedBox(height: 32),
-                          Form(
-                            key: _formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                _buildTextField(
-                                  controller: _emailController,
-                                  label: 'Email',
-                                  icon: Icons.email_outlined,
-                                ),
-                                const SizedBox(height: 16),
-                                _buildTextField(
-                                  controller: _passwordController,
-                                  label: 'Password',
-                                  icon: Icons.lock_outline,
-                                  isPassword: true,
-                                ),
-                                const SizedBox(height: 24),
-                                ElevatedButton(
-                                  onPressed: _handleSignIn,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: tectransblue,
-                                    foregroundColor: white,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 16),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    elevation: 0,
+                    width: double.infinity,
+                    child: Card(
+                      color: white,
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              "Welcome!",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: tectransblue,
                                   ),
-                                  child: const Text(
-                                    "Sign in",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                if (_errorMessage != null)
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 16.0),
-                                    child: Text(
-                                      _errorMessage!,
-                                      style: const TextStyle(
-                                        color: red,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                const SizedBox(height: 16),
-                                TextButton(
-                                  onPressed: () {},
-                                  child: const Text(
-                                    'Forgot Password?',
-                                    style: TextStyle(
-                                      color: tectransblue,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              textAlign: TextAlign.center,
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 15),
+                            const SizedBox(height: 32),
+                            Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  _buildTextField(
+                                    controller: _emailController,
+                                    label: 'Email',
+                                    icon: Icons.email_outlined,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  _buildTextField(
+                                    controller: _passwordController,
+                                    label: 'Password',
+                                    icon: Icons.lock_outline,
+                                    isPassword: true,
+                                  ),
+                                  const SizedBox(height: 24),
+                                  ElevatedButton(
+                                    onPressed: _handleSignIn,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: tectransblue,
+                                      foregroundColor: white,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 16),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      elevation: 0,
+                                    ),
+                                    child: const Text(
+                                      "Sign in",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  if (_errorMessage != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 16.0),
+                                      child: Text(
+                                        _errorMessage!,
+                                        style: const TextStyle(
+                                          color: red,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  const SizedBox(height: 16),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
