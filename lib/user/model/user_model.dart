@@ -47,7 +47,7 @@ class User {
       "email": email,
       "password": password,
       "isAdmin": isAdmin,
-      "companyId": companyId ?? emptyString,
+      if (companyId != null) "companyId": companyId,
       "companyName": companyName ?? emptyString,
     };
   }

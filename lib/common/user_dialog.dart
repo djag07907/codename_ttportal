@@ -70,7 +70,7 @@ class _UserDialogState extends State<UserDialog> {
         email: email,
         password: password,
         isAdmin: isAdmin,
-        companyId: selectedCompanyId,
+        companyId: isAdmin ? null : selectedCompanyId,
         companyName: emptyString,
         id: widget.user?.id ?? DateTime.now().toString(),
       );
@@ -154,39 +154,41 @@ class _UserDialogState extends State<UserDialog> {
                 },
               ),
               const SizedBox(height: 16),
-              Text(
-                companyLabel,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+              if (!isAdmin) ...[
+                Text(
+                  companyLabel,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              isLoadingCompanies
-                  ? const Loader()
-                  : DropdownButtonFormField<String>(
-                      isExpanded: true,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
+                isLoadingCompanies
+                    ? const Loader()
+                    : DropdownButtonFormField<String>(
+                        isExpanded: true,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                        ),
+                        hint: const Text("Choose a company"),
+                        value: selectedCompanyId,
+                        items: companies.map((company) {
+                          return DropdownMenuItem<String>(
+                            value: company.companyId,
+                            child: Text(company.companyName),
+                          );
+                        }).toList(),
+                        validator: (value) {
+                          if (!isAdmin && (value == null || value.isEmpty)) {
+                            return 'Please select a company';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            selectedCompanyId = value;
+                          });
+                        },
                       ),
-                      hint: const Text("Choose a company"),
-                      value: isAdmin ? null : selectedCompanyId,
-                      items: companies.map((company) {
-                        return DropdownMenuItem<String>(
-                          value: company.companyId.toString(),
-                          child: Text(company.companyName),
-                        );
-                      }).toList(),
-                      validator: (value) {
-                        if (!isAdmin && (value == null || value.isEmpty)) {
-                          return 'Please select a company';
-                        }
-                        return null;
-                      },
-                      onChanged: (value) {
-                        setState(() {
-                          selectedCompanyId = value;
-                        });
-                      },
-                    ),
+              ],
             ],
           ),
         ),
