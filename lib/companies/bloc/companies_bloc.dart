@@ -1,21 +1,29 @@
 import 'package:codename_ttportal/common/bloc/base_bloc.dart';
-import 'package:codename_ttportal/companies/bloc/companies_event.dart';
-import 'package:codename_ttportal/companies/bloc/companies_state.dart';
+import 'package:codename_ttportal/common/bloc/base_state.dart';
+import 'package:codename_ttportal/companies/model/company_model.dart';
 import 'package:codename_ttportal/companies/service/companies_service.dart';
 import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CompanyBloc extends BaseBloc<CompanyEvent, CompanyState> {
+part 'companies_event.dart';
+part 'companies_state.dart';
+
+class CompanyBloc extends BaseBloc<CompanyEvent, BaseState> {
+  final CompanyService service = CompanyService();
+
   CompanyBloc() : super(CompanyInitial()) {
     on<CreateCompanyEvent>(_onCreateCompany);
     on<FetchCompaniesEvent>(_onFetchCompanies);
   }
 
-  final CompanyService service = CompanyService();
-
   Future<void> _onCreateCompany(
-      CreateCompanyEvent event, Emitter<CompanyState> emit) async {
-    emit(CompanyOperationInProgress());
+    CreateCompanyEvent event,
+    Emitter<BaseState> emit,
+  ) async {
+    emit(
+      CompanyInProgress(),
+    );
     try {
       final createdCompany = await service.createCompany(
         company: event.company,
@@ -37,14 +45,20 @@ class CompanyBloc extends BaseBloc<CompanyEvent, CompanyState> {
   }
 
   Future<void> _onFetchCompanies(
-      FetchCompaniesEvent event, Emitter<CompanyState> emit) async {
-    emit(CompanyOperationInProgress());
+    FetchCompaniesEvent event,
+    Emitter<BaseState> emit,
+  ) async {
+    emit(
+      CompanyInProgress(),
+    );
     try {
       final companies = await service.getCompanies(
         pageNumber: event.pageNumber,
         pageSize: event.pageSize,
       );
-      emit(CompaniesFetchSuccess(companies));
+      emit(
+        CompaniesFetchSuccess(companies),
+      );
     } on DioException catch (error) {
       _handleDioException(
         error,
@@ -58,13 +72,15 @@ class CompanyBloc extends BaseBloc<CompanyEvent, CompanyState> {
 
   void _handleDioException(
     DioException error,
-    Emitter<CompanyState> emit,
+    Emitter<BaseState> emit,
     Function(int) errorEmitter,
   ) {
     if (error.response?.statusCode == null ||
         error.response!.statusCode! >= 500 ||
         error.response?.data?['code'] == null) {
-      emit(CompanyCreationError(500));
+      emit(
+        ServerClientError(),
+      );
     } else {
       errorEmitter(error.response!.data['code']);
     }

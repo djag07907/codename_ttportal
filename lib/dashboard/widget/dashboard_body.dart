@@ -1,6 +1,6 @@
+import 'package:codename_ttportal/common/bloc/base_state.dart';
+import 'package:codename_ttportal/common/loader/loader.dart';
 import 'package:codename_ttportal/dashboard/bloc/dashboards_bloc.dart';
-import 'package:codename_ttportal/dashboard/bloc/dashboards_event.dart';
-import 'package:codename_ttportal/dashboard/bloc/dashboards_state.dart';
 import 'package:codename_ttportal/dashboard/model/dashboard_model.dart';
 import 'package:codename_ttportal/resources/colors.dart';
 import 'package:flutter/material.dart';
@@ -17,17 +17,22 @@ class _DashboardBodyState extends State<DashboardBody> {
   // final _formKey = GlobalKey<FormState>();
   late String name, id, dashboardCode, link;
   List<Dashboard> dashboards = [];
+  late DashboardsBloc _dashboardsBloc;
 
   @override
   void initState() {
     super.initState();
+    _dashboardsBloc = context.read<DashboardsBloc>();
     _loadDashboards();
   }
 
   Future<void> _loadDashboards() async {
-    context.read<DashboardsBloc>().add(
-          const FetchDashboardsEvent(),
-        );
+    _dashboardsBloc.add(
+      const FetchDashboardsEvent(
+        pageNumber: 1,
+        pageSize: 100,
+      ),
+    );
   }
 
   void _addDashboard() {
@@ -35,7 +40,7 @@ class _DashboardBodyState extends State<DashboardBody> {
       context: context,
       builder: (context) => _DashboardDialog(
         onSave: (Dashboard dashboard) async {
-          _loadDashboards();
+          // _loadDashboards();
         },
       ),
     );
@@ -47,7 +52,7 @@ class _DashboardBodyState extends State<DashboardBody> {
       builder: (context) => _DashboardDialog(
         dashboard: dashboard,
         onSave: (Dashboard updatedDashboard) async {
-          _loadDashboards();
+          // _loadDashboards();
         },
       ),
     );
@@ -67,7 +72,7 @@ class _DashboardBodyState extends State<DashboardBody> {
           ElevatedButton(
             onPressed: () async {
               Navigator.pop(context);
-              _loadDashboards();
+              // _loadDashboards();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: red,
@@ -92,54 +97,63 @@ class _DashboardBodyState extends State<DashboardBody> {
           ),
         ),
       ),
-      body: BlocBuilder<DashboardsBloc, DashboardsState>(
-        builder: (context, state) {
-          if (state is DashboardsInProgress) {
-            return const Center(
-              child: CircularProgressIndicator(),
+      body: BlocListener<DashboardsBloc, BaseState>(
+        listener: (context, state) {
+          if (state is DashboardsFetchError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Error: ${state.error}'),
+              ),
             );
           }
-          if (state is DashboardsFetchSuccess) {
-            final dashboards = state.dashboard;
-            if (dashboards.isEmpty) {
-              return const Center(
-                child: Text(
-                  'There is no data yet.',
-                  style: TextStyle(fontSize: 18),
-                ),
-              );
+        },
+        child: BlocBuilder<DashboardsBloc, BaseState>(
+          builder: (context, state) {
+            if (state is DashboardsInProgress) {
+              return const Loader();
             }
-
-            return ListView.builder(
-              itemCount: dashboards.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(dashboards[index].name),
-                  subtitle: Text(dashboards[index].dashboardCode),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () => _editDashboard(dashboards[index]),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () => _deleteDashboard(dashboards[index]),
-                      ),
-                    ],
+            if (state is DashboardsFetchSuccess) {
+              final dashboards = state.dashboard;
+              if (dashboards.isEmpty) {
+                return const Center(
+                  child: Text(
+                    'There is no data yet.',
+                    style: TextStyle(fontSize: 18),
                   ),
                 );
-              },
-            );
-          }
-          if (state is DashboardsFetchError) {
-            return Center(
-              child: Text('Error: ${state.error}'),
-            );
-          }
-          return const SizedBox();
-        },
+              }
+
+              return ListView.builder(
+                itemCount: dashboards.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(dashboards[index].name),
+                    subtitle: Text(dashboards[index].dashboardCode),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit),
+                          onPressed: () => _editDashboard(dashboards[index]),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () => _deleteDashboard(dashboards[index]),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            }
+            // if (state is DashboardsFetchError) {
+            //   return Center(
+            //     child: Text('Error: ${state.error}'),
+            //   );
+            // }
+            return const SizedBox();
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addDashboard,

@@ -1,22 +1,27 @@
 import 'package:codename_ttportal/common/bloc/base_bloc.dart';
-import 'package:codename_ttportal/licenses/bloc/licenses_event.dart';
-import 'package:codename_ttportal/licenses/bloc/licenses_state.dart';
+import 'package:codename_ttportal/common/bloc/base_state.dart';
+import 'package:codename_ttportal/licenses/model/company_model.dart';
+import 'package:codename_ttportal/licenses/model/license_model.dart';
 import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:codename_ttportal/licenses/service/licenses_service.dart';
 
-class LicensesBloc extends BaseBloc<LicensesEvent, LicensesState> {
+part 'licenses_event.dart';
+part 'licenses_state.dart';
+
+class LicensesBloc extends BaseBloc<LicensesEvent, BaseState> {
+  final LicensesService service = LicensesService();
+
   LicensesBloc() : super(LicensesInitial()) {
     on<CreateLicenseEvent>(_onCreateLicense);
     on<FetchLicensesEvent>(_onFetchLicenses);
     on<FetchCompaniesEvent>(_onFetchCompanies);
   }
 
-  final LicensesService service = LicensesService();
-
   Future<void> _onCreateLicense(
     CreateLicenseEvent event,
-    Emitter<LicensesState> emit,
+    Emitter<BaseState> emit,
   ) async {
     emit(
       LicensesInProgress(),
@@ -42,8 +47,12 @@ class LicensesBloc extends BaseBloc<LicensesEvent, LicensesState> {
   }
 
   Future<void> _onFetchCompanies(
-      FetchCompaniesEvent event, Emitter<LicensesState> emit) async {
-    emit(LicensesInProgress());
+    FetchCompaniesEvent event,
+    Emitter<BaseState> emit,
+  ) async {
+    emit(
+      LicensesInProgress(),
+    );
     try {
       final companies = await service.getCompanies(
         pageNumber: event.pageNumber,
@@ -66,7 +75,9 @@ class LicensesBloc extends BaseBloc<LicensesEvent, LicensesState> {
   }
 
   Future<void> _onFetchLicenses(
-      FetchLicensesEvent event, Emitter<LicensesState> emit) async {
+    FetchLicensesEvent event,
+    Emitter<BaseState> emit,
+  ) async {
     emit(
       LicensesInProgress(),
     );
@@ -85,14 +96,14 @@ class LicensesBloc extends BaseBloc<LicensesEvent, LicensesState> {
 
   void _handleDioException(
     DioException error,
-    Emitter<LicensesState> emit,
+    Emitter<BaseState> emit,
     Function(int) errorEmitter,
   ) {
     if (error.response?.statusCode == null ||
         error.response!.statusCode! >= 500 ||
         error.response?.data?['code'] == null) {
       emit(
-        LicenseCreationError(500),
+        ServerClientError(),
       );
     } else {
       errorEmitter(error.response!.data['code']);

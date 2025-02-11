@@ -1,6 +1,6 @@
+import 'package:codename_ttportal/common/bloc/base_state.dart';
+import 'package:codename_ttportal/common/loader/loader.dart';
 import 'package:codename_ttportal/companies/bloc/companies_bloc.dart';
-import 'package:codename_ttportal/companies/bloc/companies_event.dart';
-import 'package:codename_ttportal/companies/bloc/companies_state.dart';
 import 'package:codename_ttportal/companies/model/company_model.dart';
 import 'package:codename_ttportal/resources/colors.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +15,23 @@ class CompaniesBody extends StatefulWidget {
 
 class _CompaniesBodyState extends State<CompaniesBody> {
   List<Company> companies = [];
+  late CompanyBloc _companyBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _companyBloc = context.read<CompanyBloc>();
+    _fetchCompanies();
+  }
+
+  void _fetchCompanies() {
+    _companyBloc.add(
+      const FetchCompaniesEvent(
+        pageNumber: 1,
+        pageSize: 100,
+      ),
+    );
+  }
 
   void _editCompany(Company company) {
     showDialog(
@@ -59,21 +76,11 @@ class _CompaniesBodyState extends State<CompaniesBody> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<CompanyBloc>().add(
-            const FetchCompaniesEvent(),
-          );
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Manage Companies',
+          'Companies Management',
           style: TextStyle(
             color: black,
             fontWeight: FontWeight.bold,
@@ -81,27 +88,32 @@ class _CompaniesBodyState extends State<CompaniesBody> {
         ),
         backgroundColor: transparent,
       ),
-      body: BlocListener<CompanyBloc, CompanyState>(
+      body: BlocListener<CompanyBloc, BaseState>(
         listener: (context, state) {
           if (state is CompanyCreationSuccess) {
-            context.read<CompanyBloc>().add(
-                  const FetchCompaniesEvent(),
-                );
+            _fetchCompanies();
           }
-          if (state is CompaniesFetchSuccess) {
-            setState(() {
-              companies = state.companies;
-            });
+          if (state is CompaniesFetchError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Error: ${state.error}'),
+              ),
+            );
           }
         },
-        child: companies.isEmpty
-            ? const Center(
-                child: Text(
-                  'There are no companies data yet.',
-                  style: TextStyle(fontSize: 18),
-                ),
-              )
-            : ListView.builder(
+        child: BlocBuilder<CompanyBloc, BaseState>(
+          builder: (context, state) {
+            if (state is CompanyInProgress) {
+              return const Loader();
+            }
+            if (state is CompaniesFetchSuccess) {
+              companies = state.companies;
+              if (companies.isEmpty) {
+                return const Center(
+                  child: Text('There is no data yet.'),
+                );
+              }
+              return ListView.builder(
                 itemCount: companies.length,
                 itemBuilder: (context, index) {
                   final company = companies[index];
@@ -124,7 +136,13 @@ class _CompaniesBodyState extends State<CompaniesBody> {
                     ),
                   );
                 },
-              ),
+              );
+            }
+            return const Center(
+              child: Text('No data available.'),
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -151,7 +169,10 @@ class _CompaniesBodyState extends State<CompaniesBody> {
 class _CompaniesDialog extends StatefulWidget {
   final Company? company;
   final Function(Company) onSave;
-  const _CompaniesDialog({this.company, required this.onSave});
+  const _CompaniesDialog({
+    this.company,
+    required this.onSave,
+  });
 
   @override
   __CompaniesDialogState createState() => __CompaniesDialogState();

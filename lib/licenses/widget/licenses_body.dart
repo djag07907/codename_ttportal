@@ -1,6 +1,7 @@
+import 'package:codename_ttportal/common/bloc/base_state.dart';
+import 'package:codename_ttportal/common/loader/loader.dart';
 import 'package:codename_ttportal/licenses/bloc/licenses_bloc.dart';
-import 'package:codename_ttportal/licenses/bloc/licenses_event.dart';
-import 'package:codename_ttportal/licenses/bloc/licenses_state.dart';
+
 import 'package:codename_ttportal/licenses/model/company_model.dart';
 import 'package:codename_ttportal/licenses/model/license_model.dart';
 import 'package:codename_ttportal/resources/colors.dart';
@@ -15,21 +16,38 @@ class LicensesBody extends StatefulWidget {
 }
 
 class _LicensesBodyState extends State<LicensesBody> {
+  late LicensesBloc _licensesBloc;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   context.read<LicensesBloc>().add(
+  //         FetchCompaniesEvent(
+  //           pageNumber: 1,
+  //           pageSize: 100,
+  //         ),
+  //       );
+  //   context.read<LicensesBloc>().add(
+  //         FetchLicensesEvent(
+  //           pageNumber: 1,
+  //           pageSize: 100,
+  //         ),
+  //       );
+  // }
   @override
   void initState() {
     super.initState();
-    context.read<LicensesBloc>().add(
-          FetchCompaniesEvent(
-            pageNumber: 1,
-            pageSize: 100,
-          ),
-        );
-    context.read<LicensesBloc>().add(
-          FetchLicensesEvent(
-            pageNumber: 1,
-            pageSize: 100,
-          ),
-        );
+    _licensesBloc = context.read<LicensesBloc>();
+    _fetchCompanies();
+  }
+
+  void _fetchCompanies() {
+    _licensesBloc.add(
+      const FetchCompaniesEvent(
+        pageNumber: 1,
+        pageSize: 100,
+      ),
+    );
   }
 
   void _createLicense(List<Company> companies) {
@@ -53,7 +71,7 @@ class _LicensesBodyState extends State<LicensesBody> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Manage Licenses',
+          'Licenses Management',
           style: TextStyle(
             color: black,
             fontWeight: FontWeight.bold,
@@ -61,24 +79,24 @@ class _LicensesBodyState extends State<LicensesBody> {
         ),
         backgroundColor: transparent,
       ),
-      body: BlocListener<LicensesBloc, LicensesState>(
+      body: BlocListener<LicensesBloc, BaseState>(
         listener: (context, state) {
           if (state is LicenseCreationSuccess) {
-            context.read<LicensesBloc>().add(
-                  FetchLicensesEvent(
-                    pageNumber: 1,
-                    pageSize: 100,
-                  ),
-                );
+            _fetchCompanies();
+          }
+          if (state is CompaniesFetchError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Error: ${state.error}'),
+              ),
+            );
           }
         },
-        child: BlocBuilder<LicensesBloc, LicensesState>(
+        child: BlocBuilder<LicensesBloc, BaseState>(
           builder: (context, state) {
-            // if (state is LicensesInProgress) {
-            //   return const Center(
-            //     child: CircularProgressIndicator(),
-            //   );
-            // }
+            if (state is LicensesInProgress) {
+              return const Loader();
+            }
             if (state is CompaniesFetchSuccess) {
               return ListView.builder(
                 itemCount: state.companies.length,
@@ -91,11 +109,11 @@ class _LicensesBodyState extends State<LicensesBody> {
                 },
               );
             }
-            if (state is CompaniesFetchError) {
-              return Center(
-                child: Text('Error fetching companies: ${state.error}'),
-              );
-            }
+            // if (state is CompaniesFetchError) {
+            //   return Center(
+            //     child: Text('Error fetching companies: ${state.error}'),
+            //   );
+            // }
             return const Center(
               child: Text('No companies available.'),
             );

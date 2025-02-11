@@ -1,7 +1,6 @@
-import 'package:codename_ttportal/licenses/model/company_model.dart';
-import 'package:codename_ttportal/licenses/model/license_model.dart';
+part of 'licenses_bloc.dart';
 
-sealed class LicensesState {}
+sealed class LicensesState extends BaseState {}
 
 class LicensesInitial extends LicensesState {}
 
@@ -9,6 +8,7 @@ class LicensesInProgress extends LicensesState {}
 
 class LicenseCreationSuccess extends LicensesState {
   final List<License> licenses;
+
   LicenseCreationSuccess(
     this.licenses,
   );
@@ -16,6 +16,7 @@ class LicenseCreationSuccess extends LicensesState {
 
 class LicenseCreationError extends LicensesState {
   final int? error;
+
   LicenseCreationError(
     this.error,
   );
@@ -23,6 +24,7 @@ class LicenseCreationError extends LicensesState {
 
 class LicenseFetchSuccess extends LicensesState {
   final LicensesData licensesData;
+
   LicenseFetchSuccess(
     this.licensesData,
   );
@@ -30,6 +32,7 @@ class LicenseFetchSuccess extends LicensesState {
 
 class LicenseFetchError extends LicensesState {
   final int? error;
+
   LicenseFetchError(
     this.error,
   );
