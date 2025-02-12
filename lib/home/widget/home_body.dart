@@ -32,21 +32,14 @@ class _HomeBodyState extends State<HomeBody> {
     _homeBloc = context.read<HomeBloc>();
     user = widget.user;
     final userId = TokenDecryptor.getUserId(user.token);
-    print("User ID obtained from token: $userId");
 
     if (userId != null) {
-      print("Triggering fetch for user details.");
       _homeBloc.add(
         FetchUserDetailsById(
           userId,
         ),
       );
-    } else {
-      print("User ID is null. Please check the user token.");
     }
-
-    print("User: $user");
-    print("User Token: ${user.token}");
   }
 
   @override
@@ -65,7 +58,6 @@ class _HomeBodyState extends State<HomeBody> {
       body: BlocListener<HomeBloc, BaseState>(
         listener: (context, state) {
           if (state is UserDetailsFetchSuccess) {
-            print("User details fetch successful, triggering dashboard fetch.");
             _homeBloc.add(
               FetchDashboardsByCompanyId(
                 state.companyId,
@@ -83,7 +75,6 @@ class _HomeBodyState extends State<HomeBody> {
             }
             if (state is DashboardsFetchSuccess) {
               final dashboards = state.dashboard;
-              print("Dashboards successfully fetched.");
               return dashboards.isEmpty
                   ? const Center(
                       child: Text('No dashboards available for your account.'),
@@ -117,7 +108,6 @@ class _HomeBodyState extends State<HomeBody> {
   void _logout(BuildContext context) async {
     final userRepository = UserRepository();
     await userRepository.clear();
-    print('User data cleared successfully.');
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -127,7 +117,6 @@ class _HomeBodyState extends State<HomeBody> {
   }
 
   void _showLicenseExpiredDialog() {
-    print("Displaying license expired dialog.");
     showDialog(
       context: context,
       builder: (BuildContext context) {

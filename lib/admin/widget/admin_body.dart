@@ -153,7 +153,6 @@ class _AdminBodyState extends State<AdminBody> {
   void _logout(BuildContext context) async {
     final userRepository = UserRepository();
     await userRepository.clear();
-    print('User data cleared successfully.');
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

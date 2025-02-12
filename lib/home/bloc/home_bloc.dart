@@ -27,14 +27,9 @@ class HomeBloc extends BaseBloc<HomeEvent, BaseState> {
     emit(
       HomeInProgress(),
     );
-    print("Fetching user details for user ID: ${event.userId}");
-
     try {
       final response = await service.getUserDetailsById(event.userId);
-      print("User details fetched: ${response.toJson()}");
       final companyId = response.companyId;
-      print("Company ID obtained: $companyId");
-
       emit(
         UserDetailsFetchSuccess(
           companyId,
@@ -56,15 +51,10 @@ class HomeBloc extends BaseBloc<HomeEvent, BaseState> {
     emit(
       HomeInProgress(),
     );
-    print("Fetching dashboards for company ID: ${event.companyId}");
-
     try {
       final dashboards = await service.getDashboardsByCompanyId(
         event.companyId,
       );
-      print(
-          "Dashboards fetched: ${dashboards.map((d) => d.toJson()).toList()}");
-
       emit(
         DashboardsFetchSuccess(
           dashboards,
@@ -88,7 +78,6 @@ class HomeBloc extends BaseBloc<HomeEvent, BaseState> {
       emit(
         LicenseExpiredError(),
       );
-      print("License expired error (401) received.");
     }
     if (error.response?.statusCode == null ||
         error.response!.statusCode! >= 500 ||
@@ -100,7 +89,6 @@ class HomeBloc extends BaseBloc<HomeEvent, BaseState> {
       errorEmitter(
         error.response!.data[responseCode],
       );
-      print("Error occurred: ${error.response!.data[responseCode]}");
     }
   }
 }

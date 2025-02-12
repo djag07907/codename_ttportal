@@ -116,28 +116,43 @@ class _UserBodyState extends State<UserBody> {
                 itemCount: users.length,
                 itemBuilder: (context, index) {
                   final user = users[index];
-                  return ListTile(
-                    title: Text(user.email),
-                    subtitle: Text(user.isAdmin ? 'Admin' : 'Regular User'),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.edit,
-                            color: tectransblue,
-                          ),
-                          onPressed: () => _editUser(user),
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListTile(
+                        title: Text(user.email),
+                        subtitle: Text(user.isAdmin ? 'Admin' : 'Regular User'),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.edit,
+                                color: tectransblue,
+                              ),
+                              onPressed: () => _editUser(user),
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.remove_circle,
+                                color: red,
+                              ),
+                              onPressed: () =>
+                                  _deleteUser(user.id ?? emptyString),
+                            ),
+                          ],
                         ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.remove_circle,
-                            color: red,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0, bottom: 8.0),
+                        child: Text(
+                          'Additional Info: ${user.companyName}',
+                          style: TextStyle(
+                            color: Colors.grey[600],
                           ),
-                          onPressed: () => _deleteUser(user.id ?? emptyString),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   );
                 },
               );
