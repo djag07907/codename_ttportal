@@ -36,7 +36,7 @@ class _AdminBodyState extends State<AdminBody> {
         children: [
           Container(
             width: 250,
-            color: Colors.blue[900],
+            color: tectransblue,
             child: Column(
               children: [
                 Container(
@@ -49,7 +49,9 @@ class _AdminBodyState extends State<AdminBody> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(
+                  height: 10,
+                ),
                 ListTile(
                   leading: const Icon(
                     Icons.people,
@@ -135,7 +137,10 @@ class _AdminBodyState extends State<AdminBody> {
                         ),
                       ),
                       IconButton(
-                        icon: Icon(Icons.logout, color: Colors.blue[900]),
+                        icon: const Icon(
+                          Icons.logout,
+                          color: tectransblue,
+                        ),
                         onPressed: () => _logout(context),
                       ),
                     ],

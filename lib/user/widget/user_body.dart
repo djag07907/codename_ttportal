@@ -147,8 +147,8 @@ class _UserBodyState extends State<UserBody> {
                         padding: const EdgeInsets.only(left: 16.0, bottom: 8.0),
                         child: Text(
                           'Additional Info: ${user.companyName}',
-                          style: TextStyle(
-                            color: Colors.grey[600],
+                          style: const TextStyle(
+                            color: grayBackground,
                           ),
                         ),
                       ),

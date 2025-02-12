@@ -1,4 +1,5 @@
 import 'package:codename_ttportal/home/model/dashboard_model.dart';
+import 'package:codename_ttportal/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:codename_ttportal/common/powerbi_dashboard.dart';
 
@@ -33,10 +34,10 @@ class DashboardCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.dashboard,
                 size: 48,
-                color: Colors.blue[900],
+                color: tectransblue,
               ),
               const SizedBox(height: 8),
               Text(
@@ -50,9 +51,9 @@ class DashboardCard extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 dashboard.dashboardCode,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
-                  color: Colors.grey[600],
+                  color: grayBackground,
                 ),
                 textAlign: TextAlign.center,
               ),

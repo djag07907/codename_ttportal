@@ -266,8 +266,8 @@ class __CreateLicenseDialogState extends State<_CreateLicenseDialog> {
                                   .toLocal()
                                   .toString()
                                   .split(' ')[0],
-                          style: TextStyle(
-                            color: Colors.grey[600],
+                          style: const TextStyle(
+                            color: grayBackground,
                           ),
                         ),
                       ),
@@ -297,7 +297,7 @@ class __CreateLicenseDialogState extends State<_CreateLicenseDialog> {
           child: const Text(
             "Cancel",
             style: TextStyle(
-              color: Colors.grey,
+              color: gray,
             ),
           ),
         ),
@@ -333,7 +333,9 @@ class __CreateLicenseDialogState extends State<_CreateLicenseDialog> {
             icon,
             color: tectransblue,
           ),
-          labelStyle: TextStyle(color: Colors.grey[600]),
+          labelStyle: const TextStyle(
+            color: grayBackground,
+          ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none,
@@ -370,7 +372,9 @@ class __CreateLicenseDialogState extends State<_CreateLicenseDialog> {
             icon,
             color: tectransblue,
           ),
-          labelStyle: TextStyle(color: Colors.grey[600]),
+          labelStyle: const TextStyle(
+            color: grayBackground,
+          ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none,

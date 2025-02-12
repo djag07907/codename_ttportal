@@ -1,4 +1,5 @@
 import 'package:codename_ttportal/home/model/dashboard_model.dart';
+import 'package:codename_ttportal/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
 import 'dart:ui' as ui;
@@ -36,7 +37,7 @@ class _PowerBIDashboardState extends State<PowerBIDashboard> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.dashboard.name),
-        backgroundColor: Colors.blue[900],
+        backgroundColor: tectransblue,
       ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,

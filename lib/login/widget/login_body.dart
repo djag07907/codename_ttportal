@@ -190,13 +190,15 @@ class _LoginBodyState extends State<LoginBody> {
         obscureText: isPassword ? _obscurePassword : false,
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: Colors.grey[600]),
+          labelStyle: const TextStyle(
+            color: grayBackground,
+          ),
           prefixIcon: Icon(icon, color: tectransblue),
           suffixIcon: isPassword
               ? IconButton(
                   icon: Icon(
                     _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.grey[600],
+                    color: grayBackground,
                   ),
                   onPressed: () {
                     setState(() {

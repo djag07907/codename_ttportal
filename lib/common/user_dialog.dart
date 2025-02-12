@@ -225,7 +225,7 @@ class _UserDialogState extends State<UserDialog> {
           child: const Text(
             'Cancel',
             style: TextStyle(
-              color: Colors.grey,
+              color: gray,
             ),
           ),
         ),
@@ -259,7 +259,9 @@ class _UserDialogState extends State<UserDialog> {
         initialValue: initialValue,
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: Colors.grey[600]),
+          labelStyle: const TextStyle(
+            color: grayBackground,
+          ),
           prefixIcon: Icon(
             icon,
             color: tectransblue,
@@ -268,7 +270,7 @@ class _UserDialogState extends State<UserDialog> {
               ? IconButton(
                   icon: Icon(
                     _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.grey[600],
+                    color: grayBackground,
                   ),
                   onPressed: () {
                     setState(() {

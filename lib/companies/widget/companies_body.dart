@@ -349,7 +349,9 @@ class __CompaniesDialogState extends State<_CompaniesDialog> {
         initialValue: initialValue,
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: Colors.grey[600]),
+          labelStyle: const TextStyle(
+            color: grayBackground,
+          ),
           prefixIcon: Icon(
             icon,
             color: tectransblue,

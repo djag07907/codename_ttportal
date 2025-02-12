@@ -70,7 +70,7 @@ class _DashboardBodyState extends State<DashboardBody> {
             child: const Text(
               'Cancel',
               style: TextStyle(
-                color: Colors.grey,
+                color: gray,
               ),
             ),
           ),
@@ -285,7 +285,7 @@ class __DashboardDialogState extends State<_DashboardDialog> {
           child: const Text(
             'Cancel',
             style: TextStyle(
-              color: Colors.grey,
+              color: gray,
             ),
           ),
         ),
@@ -329,7 +329,9 @@ class __DashboardDialogState extends State<_DashboardDialog> {
         initialValue: initialValue,
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: Colors.grey[600]),
+          labelStyle: const TextStyle(
+            color: grayBackground,
+          ),
           prefixIcon: Icon(
             icon,
             color: tectransblue,
