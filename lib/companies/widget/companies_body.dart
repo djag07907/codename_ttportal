@@ -58,7 +58,12 @@ class _CompaniesBodyState extends State<CompaniesBody> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
           ),
           ElevatedButton(
             onPressed: () {
@@ -190,6 +195,7 @@ class _CompaniesBodyState extends State<CompaniesBody> {
 class _CompaniesDialog extends StatefulWidget {
   final Company? company;
   final Function(Company) onSave;
+
   const _CompaniesDialog({
     this.company,
     required this.onSave,
@@ -219,53 +225,89 @@ class __CompaniesDialogState extends State<_CompaniesDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(widget.company == null ? 'Add Company' : 'Edit Company'),
+      title: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: tectransblue,
+              width: 2.0,
+            ),
+          ),
+        ),
+        child: Text(
+          widget.company == null ? 'Add Company' : 'Edit Company',
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: tectransblue,
+          ),
+        ),
+      ),
       content: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                initialValue: companyName,
-                decoration: const InputDecoration(labelText: 'Company Name'),
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Please enter a company name'
-                    : null,
-                onSaved: (value) => companyName = value!,
-              ),
-              TextFormField(
-                initialValue: dashboardName,
-                decoration: const InputDecoration(labelText: 'Dashboard Name'),
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Please enter a dashboard name'
-                    : null,
-                onSaved: (value) => dashboardName = value!,
-              ),
-              TextFormField(
-                initialValue: dashboardCode,
-                decoration: const InputDecoration(labelText: 'Dashboard Code'),
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Please enter a dashboard code'
-                    : null,
-                onSaved: (value) => dashboardCode = value!,
-              ),
-              TextFormField(
-                initialValue: dashboardLink,
-                decoration: const InputDecoration(labelText: 'Dashboard Link'),
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Please enter a dashboard link'
-                    : null,
-                onSaved: (value) => dashboardLink = value!,
-              ),
-            ],
+        child: Container(
+          width: 450,
+          constraints: const BoxConstraints(
+            maxWidth: 500,
+          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildTextField(
+                  label: 'Company Name',
+                  initialValue: companyName,
+                  icon: Icons.business,
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Please enter a company name'
+                      : null,
+                  onSaved: (value) => companyName = value!,
+                ),
+                const SizedBox(height: 16),
+                _buildTextField(
+                  label: 'Dashboard Name',
+                  initialValue: dashboardName,
+                  icon: Icons.dashboard,
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Please enter a dashboard name'
+                      : null,
+                  onSaved: (value) => dashboardName = value!,
+                ),
+                const SizedBox(height: 16),
+                _buildTextField(
+                  label: 'Dashboard Code',
+                  initialValue: dashboardCode,
+                  icon: Icons.aod,
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Please enter a dashboard code'
+                      : null,
+                  onSaved: (value) => dashboardCode = value!,
+                ),
+                const SizedBox(height: 16),
+                _buildTextField(
+                  label: 'Dashboard Link',
+                  initialValue: dashboardLink,
+                  icon: Icons.link,
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Please enter a dashboard link'
+                      : null,
+                  onSaved: (value) => dashboardLink = value!,
+                ),
+              ],
+            ),
           ),
         ),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(
+              color: Colors.grey,
+            ),
+          ),
         ),
         ElevatedButton(
           onPressed: () {
@@ -281,9 +323,51 @@ class __CompaniesDialogState extends State<_CompaniesDialog> {
               Navigator.pop(context);
             }
           },
+          style: ElevatedButton.styleFrom(
+            foregroundColor: white,
+            backgroundColor: tectransblue,
+          ),
           child: const Text('Save'),
         ),
       ],
+    );
+  }
+
+  Widget _buildTextField({
+    required String label,
+    required String initialValue,
+    required IconData icon,
+    required String? Function(String?)? validator,
+    required void Function(String?)? onSaved,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: TextFormField(
+        initialValue: initialValue,
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: TextStyle(color: Colors.grey[600]),
+          prefixIcon: Icon(
+            icon,
+            color: tectransblue,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: Colors.grey[100],
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 16.0,
+          ),
+        ),
+        validator: validator,
+        onSaved: onSaved,
+      ),
     );
   }
 }

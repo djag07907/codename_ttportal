@@ -67,7 +67,12 @@ class _DashboardBodyState extends State<DashboardBody> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -211,41 +216,78 @@ class __DashboardDialogState extends State<_DashboardDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title:
-          Text(widget.dashboard == null ? 'Add Dashboard' : 'Edit Dashboard'),
-      content: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextFormField(
-              initialValue: name,
-              decoration: const InputDecoration(labelText: 'Name'),
-              validator: (value) =>
-                  value!.isEmpty ? 'Please enter a name' : null,
-              onSaved: (value) => name = value!,
+      title: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 16.0,
+        ),
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: tectransblue,
+              width: 2.0,
             ),
-            TextFormField(
-              initialValue: dashboardCode,
-              decoration: const InputDecoration(labelText: 'Codename'),
-              validator: (value) =>
-                  value!.isEmpty ? 'Please enter a dashboardCode' : null,
-              onSaved: (value) => dashboardCode = value!,
+          ),
+        ),
+        child: const Text(
+          "Add Dashboard",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: tectransblue,
+          ),
+        ),
+      ),
+      content: SingleChildScrollView(
+        child: Container(
+          width: 450,
+          constraints: const BoxConstraints(
+            maxWidth: 500,
+          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildTextField(
+                  label: 'Name',
+                  initialValue: name,
+                  icon: Icons.dashboard,
+                  validator: (value) =>
+                      value!.isEmpty ? 'Please enter a name' : null,
+                  onSaved: (value) => name = value!,
+                ),
+                const SizedBox(height: 16),
+                _buildTextField(
+                  label: 'Codename',
+                  initialValue: dashboardCode,
+                  icon: Icons.code,
+                  validator: (value) =>
+                      value!.isEmpty ? 'Please enter a dashboard code' : null,
+                  onSaved: (value) => dashboardCode = value!,
+                ),
+                const SizedBox(height: 16),
+                _buildTextField(
+                  label: 'Link',
+                  initialValue: link,
+                  icon: Icons.link,
+                  validator: (value) =>
+                      value!.isEmpty ? 'Please enter a link' : null,
+                  onSaved: (value) => link = value!,
+                ),
+              ],
             ),
-            TextFormField(
-              initialValue: link,
-              decoration: const InputDecoration(labelText: 'Link'),
-              validator: (value) =>
-                  value!.isEmpty ? 'Please enter a link' : null,
-              onSaved: (value) => link = value!,
-            ),
-          ],
+          ),
         ),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(
+              color: Colors.grey,
+            ),
+          ),
         ),
         ElevatedButton(
           onPressed: () {
@@ -261,9 +303,51 @@ class __DashboardDialogState extends State<_DashboardDialog> {
               Navigator.pop(context);
             }
           },
+          style: ElevatedButton.styleFrom(
+            foregroundColor: white,
+            backgroundColor: tectransblue,
+          ),
           child: const Text('Save'),
         ),
       ],
+    );
+  }
+
+  Widget _buildTextField({
+    required String label,
+    required String initialValue,
+    required IconData icon,
+    required String? Function(String?)? validator,
+    required void Function(String?)? onSaved,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: TextFormField(
+        initialValue: initialValue,
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: TextStyle(color: Colors.grey[600]),
+          prefixIcon: Icon(
+            icon,
+            color: tectransblue,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: Colors.grey[100],
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 16.0,
+          ),
+        ),
+        validator: validator,
+        onSaved: onSaved,
+      ),
     );
   }
 }

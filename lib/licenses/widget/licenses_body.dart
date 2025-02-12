@@ -18,22 +18,6 @@ class LicensesBody extends StatefulWidget {
 class _LicensesBodyState extends State<LicensesBody> {
   late LicensesBloc _licensesBloc;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   context.read<LicensesBloc>().add(
-  //         FetchCompaniesEvent(
-  //           pageNumber: 1,
-  //           pageSize: 100,
-  //         ),
-  //       );
-  //   context.read<LicensesBloc>().add(
-  //         FetchLicensesEvent(
-  //           pageNumber: 1,
-  //           pageSize: 100,
-  //         ),
-  //       );
-  // }
   @override
   void initState() {
     super.initState();
@@ -197,80 +181,208 @@ class __CreateLicenseDialogState extends State<_CreateLicenseDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Create License"),
+      title: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: tectransblue,
+              width: 2.0,
+            ),
+          ),
+        ),
+        child: const Text(
+          "Create License",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: tectransblue,
+          ),
+        ),
+      ),
       content: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              DropdownButtonFormField<String>(
-                hint: const Text("Select Company"),
-                value: selectedCompanyId,
-                items: widget.companies.map((company) {
-                  return DropdownMenuItem<String>(
-                    value: company.companyId.toString(),
-                    child: Text(company.companyName),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedCompanyId = value;
-                  });
-                },
-                validator: (value) =>
-                    value == null ? "Please select a company" : null,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: "Amount of Licenses",
+        child: Container(
+          width: 450,
+          constraints: const BoxConstraints(
+            maxWidth: 500,
+          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildDropdownField(
+                  label: "Select Company",
+                  value: selectedCompanyId,
+                  icon: Icons.business,
+                  items: widget.companies.map((company) {
+                    return DropdownMenuItem<String>(
+                      value: company.companyId.toString(),
+                      child: Text(company.companyName),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedCompanyId = value;
+                    });
+                  },
                 ),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Enter an amount";
-                  }
-                  if (int.tryParse(value) == null) {
-                    return "Enter a valid number";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  amountOfLicenses = int.tryParse(value!);
-                },
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      expirationDate == null
-                          ? "Select Expiration Date"
-                          : expirationDate!.toLocal().toString().split(' ')[0],
+                const SizedBox(height: 16),
+                _buildTextField(
+                  label: "Amount of Licenses",
+                  icon: Icons.format_list_numbered,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Enter an amount";
+                    }
+                    if (int.tryParse(value) == null) {
+                      return "Enter a valid number";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    amountOfLicenses = int.tryParse(value!);
+                  },
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 12.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          expirationDate == null
+                              ? "Select Expiration Date"
+                              : expirationDate!
+                                  .toLocal()
+                                  .toString()
+                                  .split(' ')[0],
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: _pickDate,
-                    icon: const Icon(
-                      Icons.calendar_today,
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                      onPressed: _pickDate,
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: white,
+                        backgroundColor: tectransblue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Icon(Icons.calendar_today),
                     ),
-                  )
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text("Cancel"),
+          child: const Text(
+            "Cancel",
+            style: TextStyle(
+              color: Colors.grey,
+            ),
+          ),
         ),
         ElevatedButton(
           onPressed: _createLicense,
+          style: ElevatedButton.styleFrom(
+            foregroundColor: white,
+            backgroundColor: tectransblue,
+          ),
           child: const Text("Create"),
         ),
       ],
+    );
+  }
+
+  Widget _buildTextField({
+    required String label,
+    required TextInputType keyboardType,
+    required IconData icon,
+    required String? Function(String?)? validator,
+    required void Function(String?)? onSaved,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: TextFormField(
+        keyboardType: keyboardType,
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon: Icon(
+            icon,
+            color: tectransblue,
+          ),
+          labelStyle: TextStyle(color: Colors.grey[600]),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: Colors.grey[100],
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 16.0,
+          ),
+        ),
+        validator: validator,
+        onSaved: onSaved,
+      ),
+    );
+  }
+
+  Widget _buildDropdownField({
+    required String label,
+    required String? value,
+    required IconData icon,
+    required List<DropdownMenuItem<String>> items,
+    required ValueChanged<String?> onChanged,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: DropdownButtonFormField<String>(
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon: Icon(
+            icon,
+            color: tectransblue,
+          ),
+          labelStyle: TextStyle(color: Colors.grey[600]),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: Colors.grey[100],
+        ),
+        value: value,
+        items: items,
+        onChanged: onChanged,
+        validator: (value) => value == null ? "Please select a company" : null,
+      ),
     );
   }
 }

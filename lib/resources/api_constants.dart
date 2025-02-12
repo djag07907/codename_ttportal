@@ -17,6 +17,7 @@ const getDashboardByCompanyIdPath =
     '/controldashboard/web/v1/Dashboard/GetDashboardsByCompanyId/';
 const getLicensesFromCompanyPath =
     '/controldashboard/web/v1/License/GetAll?PageNumber=1&PageSize=10&all=false&assigned=true&';
+// TODO: Modify this path
 const getUserDetailsPath =
     '/controldashboard/web/v1/User/GetAll/false?PageNumber=1&PageSize=1&id=';
     // '/controldashboard/web/v1/License/GetAll?PageNumber=1&PageSize=10&all=false&assigned=true&0dbca4f1-4952-41cf-ae49-4ec3995cfe3e';

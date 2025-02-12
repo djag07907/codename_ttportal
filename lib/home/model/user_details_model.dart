@@ -1,3 +1,5 @@
+import 'package:codename_ttportal/repository/respository_constants.dart';
+
 class UserDetails {
   final String userName;
   final String companyId;
@@ -21,14 +23,16 @@ class UserDetails {
 
   factory UserDetails.fromJson(Map<String, dynamic> json) {
     return UserDetails(
-      userName: json['userName'],
-      companyId: json['companyId'],
-      companyName: json['companyName'],
-      email: json['email'],
-      isAdmin: json['isAdmin'],
-      creationDate: DateTime.parse(json['creationDate']),
-      createdUserId: json['createdUserId'],
-      id: json['id'],
+      userName: json['userName'] ?? emptyString,
+      companyId: json['companyId'] ?? emptyString,
+      companyName: json['companyName'] ?? emptyString,
+      email: json['email'] ?? emptyString,
+      isAdmin: json['isAdmin'] ?? emptyString,
+      creationDate: json['creationDate'] != null
+          ? DateTime.parse(json['creationDate'])
+          : DateTime.now(),
+      createdUserId: json['createdUserId'] ?? emptyString,
+      id: json['id'] ?? emptyString,
     );
   }
 
