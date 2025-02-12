@@ -13,33 +13,8 @@ class DashboardsBloc extends BaseBloc<DashboardsEvent, BaseState> {
   final DashboardsService service = DashboardsService();
 
   DashboardsBloc() : super(DashboardsInitial()) {
-    // on<CreateDashboardEvent>(_onCreateDashboard);
     on<FetchDashboardsEvent>(_onFetchDashboards);
   }
-
-  // Future<void> _onCreateDashboard(
-  //   CreateDashboardEvent event,
-  //   Emitter<DashboardsState> emit,
-  // ) async {
-  //   emit(
-  //     DashboardsInProgress(),
-  //   );
-  //   try {
-  //     final createdDashboard =
-  //         await service.createDashboard(dashboard: event.dashboard);
-  //     emit(
-  //       DashboardsCreationSuccess(createdDashboard),
-  //     );
-  //   } on DioException catch (error) {
-  //     _handleDioException(
-  //       error,
-  //       emit,
-  //       (code) => emit(
-  //         DashboardCreationError(code),
-  //       ),
-  //     );
-  //   }
-  // }
 
   Future<void> _onFetchDashboards(
     FetchDashboardsEvent event,

@@ -28,9 +28,7 @@ class UserDetails {
       companyName: json['companyName'] ?? emptyString,
       email: json['email'] ?? emptyString,
       isAdmin: json['isAdmin'] ?? emptyString,
-      creationDate: json['creationDate'] != null
-          ? DateTime.parse(json['creationDate'])
-          : DateTime.now(),
+      creationDate: json['creationDate'] ?? emptyString,
       createdUserId: json['createdUserId'] ?? emptyString,
       id: json['id'] ?? emptyString,
     );

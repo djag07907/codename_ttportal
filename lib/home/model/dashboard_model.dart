@@ -34,18 +34,13 @@ class Dashboard {
 
   factory Dashboard.fromJson(Map<String, dynamic> json) {
     return Dashboard(
-      id: json['id'] ?? emptyString,
-      name: json['name'] ?? emptyString,
-      dashboardCode: json['dashboardCode'] ?? emptyString,
-      link: json['link'] ?? emptyString,
-      companyId: json['companyId'],
-      companyName: json['companyName'],
-      creationDate: json['creationDate'] != null
-          ? DateTime.parse(json['creationDate'])
-          : null,
-      modificationDate: json['modificationDate'] != null
-          ? DateTime.parse(json['modificationDate'])
-          : null,
-    );
+        id: json['id'] ?? emptyString,
+        name: json['name'] ?? emptyString,
+        dashboardCode: json['dashboardCode'] ?? emptyString,
+        link: json['link'] ?? emptyString,
+        companyId: json['companyId'],
+        companyName: json['companyName'],
+        creationDate: json['creationDate'] ?? emptyString,
+        modificationDate: json['modificationDate'] ?? emptyString);
   }
 }

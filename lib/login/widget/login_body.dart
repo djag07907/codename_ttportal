@@ -222,20 +222,7 @@ class _LoginBodyState extends State<LoginBody> {
           if (value == null || value.isEmpty) {
             return 'Please enter your ${label.toLowerCase()}';
           }
-          // if (isPassword) {
-          //   if (value.length < 8) {
-          //     return 'Password must be at least 8 characters long';
-          //   }
-          //   if (!value.contains(RegExp(r'[A-Z]'))) {
-          //     return 'Password must contain at least one uppercase letter';
-          //   }
-          //   if (!value.contains(RegExp(r'[a-z]'))) {
-          //     return 'Password must contain at least one lowercase letter';
-          //   }
-          //   if (!value.contains(RegExp(r'[0-9]'))) {
-          //     return 'Password must contain at least one number';
-          //   }
-          // }
+          //TODO: Implement password validations
           return null;
         },
       ),
@@ -246,13 +233,13 @@ class _LoginBodyState extends State<LoginBody> {
     if (_formKey.currentState!.validate()) {
       final email = _emailController.text;
       final password = _passwordController.text;
-      context.read<LoginBloc>().add(
-            LoginWithEmailPassword(
-              email: email,
-              password: password,
-              rememberAccount: false,
-            ),
-          );
+      _loginBloc.add(
+        LoginWithEmailPassword(
+          email: email,
+          password: password,
+          rememberAccount: false,
+        ),
+      );
     }
   }
 }

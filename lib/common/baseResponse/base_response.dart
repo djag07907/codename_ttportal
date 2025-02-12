@@ -5,7 +5,7 @@ base class BaseResponse extends Equatable {
   final String? lang;
   final String message;
 
-  BaseResponse({
+  const BaseResponse({
     required this.code,
     required this.lang,
     required this.message,

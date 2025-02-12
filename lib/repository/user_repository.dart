@@ -37,16 +37,6 @@ class UserRepository {
     await prefs.setString(userFullName, userFullNameValue);
   }
 
-  Future<String> getUserPhoneNumber() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(userPhoneNumber) ?? emptyString;
-  }
-
-  Future<void> setUserPhoneNumber(String userPhoneNumberValue) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(userPhoneNumber, userPhoneNumberValue);
-  }
-
   Future<String> getRememberUser() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(rememberUser) ?? emptyString;

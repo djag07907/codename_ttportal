@@ -6,7 +6,7 @@ import 'package:codename_ttportal/repository/user_repository.dart';
 import 'package:codename_ttportal/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:codename_ttportal/login/model/user.dart';
-import 'package:codename_ttportal/common/dashboard_card.dart';
+import 'package:codename_ttportal/common/cards/dashboard_card.dart';
 import 'package:codename_ttportal/login/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

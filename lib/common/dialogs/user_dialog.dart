@@ -55,7 +55,7 @@ class _UserDialogState extends State<UserDialog> {
         pageSize: 100,
       );
     } catch (error) {
-      // Handle errors if needed
+      // TODO: Improve error handling
     } finally {
       setState(() {
         isLoadingCompanies = false;

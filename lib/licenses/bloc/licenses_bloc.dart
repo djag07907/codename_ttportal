@@ -82,7 +82,7 @@ class LicensesBloc extends BaseBloc<LicensesEvent, BaseState> {
       LicensesInProgress(),
     );
     try {
-      // IMLPEMENT LICENSES FETCH
+      // TODO: Implement licenses fetch
     } on DioException catch (error) {
       _handleDioException(
         error,

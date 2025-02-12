@@ -93,11 +93,6 @@ class _LicensesBodyState extends State<LicensesBody> {
                 },
               );
             }
-            // if (state is CompaniesFetchError) {
-            //   return Center(
-            //     child: Text('Error fetching companies: ${state.error}'),
-            //   );
-            // }
             return const Center(
               child: Text('No companies available.'),
             );

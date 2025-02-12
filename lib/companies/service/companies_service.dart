@@ -19,7 +19,9 @@ class CompanyService {
       createCompanyPath,
       data: company.toJson(),
       options: Options(
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+        },
       ),
     );
     return Company.fromJson(response.data['data']);

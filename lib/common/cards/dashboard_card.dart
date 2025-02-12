@@ -1,7 +1,7 @@
 import 'package:codename_ttportal/home/model/dashboard_model.dart';
 import 'package:codename_ttportal/resources/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:codename_ttportal/common/powerbi_dashboard.dart';
+import 'package:codename_ttportal/common/dashboards/powerbi_dashboard.dart';
 
 class DashboardCard extends StatelessWidget {
   final Dashboard dashboard;

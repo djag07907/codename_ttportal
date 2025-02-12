@@ -2,6 +2,7 @@ import 'package:codename_ttportal/common/bloc/base_state.dart';
 import 'package:codename_ttportal/common/loader/loader.dart';
 import 'package:codename_ttportal/dashboard/bloc/dashboards_bloc.dart';
 import 'package:codename_ttportal/dashboard/model/dashboard_model.dart';
+import 'package:codename_ttportal/repository/respository_constants.dart';
 import 'package:codename_ttportal/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +15,6 @@ class DashboardBody extends StatefulWidget {
 }
 
 class _DashboardBodyState extends State<DashboardBody> {
-  // final _formKey = GlobalKey<FormState>();
   late String name, id, dashboardCode, link;
   List<Dashboard> dashboards = [];
   late DashboardsBloc _dashboardsBloc;
@@ -39,9 +39,7 @@ class _DashboardBodyState extends State<DashboardBody> {
     showDialog(
       context: context,
       builder: (context) => _DashboardDialog(
-        onSave: (Dashboard dashboard) async {
-          // _loadDashboards();
-        },
+        onSave: (Dashboard dashboard) async {},
       ),
     );
   }
@@ -51,9 +49,7 @@ class _DashboardBodyState extends State<DashboardBody> {
       context: context,
       builder: (context) => _DashboardDialog(
         dashboard: dashboard,
-        onSave: (Dashboard updatedDashboard) async {
-          // _loadDashboards();
-        },
+        onSave: (Dashboard updatedDashboard) async {},
       ),
     );
   }
@@ -77,7 +73,6 @@ class _DashboardBodyState extends State<DashboardBody> {
           ElevatedButton(
             onPressed: () async {
               Navigator.pop(context);
-              // _loadDashboards();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: red,
@@ -127,7 +122,6 @@ class _DashboardBodyState extends State<DashboardBody> {
                   ),
                 );
               }
-
               return ListView.builder(
                 itemCount: dashboards.length,
                 itemBuilder: (context, index) {
@@ -157,11 +151,6 @@ class _DashboardBodyState extends State<DashboardBody> {
                 },
               );
             }
-            // if (state is DashboardsFetchError) {
-            //   return Center(
-            //     child: Text('Error: ${state.error}'),
-            //   );
-            // }
             return const SizedBox();
           },
         ),
@@ -208,9 +197,9 @@ class __DashboardDialogState extends State<_DashboardDialog> {
   @override
   void initState() {
     super.initState();
-    name = widget.dashboard?.name ?? '';
-    dashboardCode = widget.dashboard?.dashboardCode ?? '';
-    link = widget.dashboard?.link ?? '';
+    name = widget.dashboard?.name ?? emptyString;
+    dashboardCode = widget.dashboard?.dashboardCode ?? emptyString;
+    link = widget.dashboard?.link ?? emptyString;
   }
 
   @override

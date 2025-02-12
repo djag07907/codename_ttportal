@@ -1,6 +1,6 @@
 import 'package:codename_ttportal/common/bloc/base_state.dart';
 import 'package:codename_ttportal/common/loader/loader.dart';
-import 'package:codename_ttportal/common/user_dialog.dart';
+import 'package:codename_ttportal/common/dialogs/user_dialog.dart';
 import 'package:codename_ttportal/repository/respository_constants.dart';
 import 'package:codename_ttportal/resources/colors.dart';
 import 'package:codename_ttportal/user/bloc/user_bloc.dart';
@@ -57,15 +57,13 @@ class _UserBodyState extends State<UserBody> {
       builder: (context) => UserDialog(
         userBloc: _userBloc,
         user: user,
-        onSave: (User updatedUser) {
-          // TODO: context.read<UserBloc>().add(UpdateUserEvent(updatedUser));
-        },
+        onSave: (User updatedUser) {},
       ),
     );
   }
 
   void _deleteUser(String userId) {
-    // TODO: context.read<UserBloc>().add(DeleteUserEvent(userId));
+    // TODO: Implement user delete logic
   }
 
   @override

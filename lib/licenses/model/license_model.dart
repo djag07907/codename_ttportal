@@ -1,3 +1,5 @@
+import 'package:codename_ttportal/repository/respository_constants.dart';
+
 class License {
   final String? codeLicense;
   final String companyId;
@@ -18,10 +20,10 @@ class License {
   factory License.fromJson(Map<String, dynamic> json) {
     return License(
       codeLicense: json['codeLicense'],
-      companyId: json['companyId'] ?? '',
+      companyId: json['companyId'] ?? emptyString,
       companyName: json['companyName'],
       expirationDate: DateTime.parse(json['expirationDate']),
-      amountOfLicenses: json['amoungOfLicenses'] ?? 1,
+      amountOfLicenses: json['amoungOfLicenses'] ?? emptyInt,
       id: json['id'],
     );
   }
