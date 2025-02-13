@@ -1,10 +1,10 @@
-import 'package:codename_ttportal/admin/admin_screen.dart';
-import 'package:codename_ttportal/common/bloc/base_state.dart';
-import 'package:codename_ttportal/common/loader/loader.dart';
-import 'package:codename_ttportal/home/home_screen.dart';
-import 'package:codename_ttportal/login/bloc/login_bloc.dart';
-import 'package:codename_ttportal/resources/colors.dart';
-import 'package:codename_ttportal/resources/constants.dart';
+import 'package:cdbi/admin/admin_screen.dart';
+import 'package:cdbi/common/bloc/base_state.dart';
+import 'package:cdbi/common/loader/loader.dart';
+import 'package:cdbi/home/home_screen.dart';
+import 'package:cdbi/login/bloc/login_bloc.dart';
+import 'package:cdbi/resources/colors.dart';
+import 'package:cdbi/resources/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,9 +1,9 @@
-import 'package:codename_ttportal/common/bloc/base_state.dart';
-import 'package:codename_ttportal/common/loader/loader.dart';
-import 'package:codename_ttportal/dashboard/bloc/dashboards_bloc.dart';
-import 'package:codename_ttportal/dashboard/model/dashboard_model.dart';
-import 'package:codename_ttportal/repository/respository_constants.dart';
-import 'package:codename_ttportal/resources/colors.dart';
+import 'package:cdbi/common/bloc/base_state.dart';
+import 'package:cdbi/common/loader/loader.dart';
+import 'package:cdbi/dashboard/bloc/dashboards_bloc.dart';
+import 'package:cdbi/dashboard/model/dashboard_model.dart';
+import 'package:cdbi/repository/respository_constants.dart';
+import 'package:cdbi/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

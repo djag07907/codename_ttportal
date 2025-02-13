@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io' show Platform;
-import 'package:codename_ttportal/repository/user_repository.dart';
+import 'package:cdbi/repository/user_repository.dart';
 import 'package:dio/dio.dart';
 
 final class HeadersInterceptor extends QueuedInterceptor {

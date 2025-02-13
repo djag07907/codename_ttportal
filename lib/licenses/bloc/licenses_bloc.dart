@@ -1,11 +1,11 @@
-import 'package:codename_ttportal/common/bloc/base_bloc.dart';
-import 'package:codename_ttportal/common/bloc/base_state.dart';
-import 'package:codename_ttportal/licenses/model/company_model.dart';
-import 'package:codename_ttportal/licenses/model/license_model.dart';
+import 'package:cdbi/common/bloc/base_bloc.dart';
+import 'package:cdbi/common/bloc/base_state.dart';
+import 'package:cdbi/licenses/model/company_model.dart';
+import 'package:cdbi/licenses/model/license_model.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:codename_ttportal/licenses/service/licenses_service.dart';
+import 'package:cdbi/licenses/service/licenses_service.dart';
 
 part 'licenses_event.dart';
 part 'licenses_state.dart';

@@ -1,5 +1,5 @@
-import 'package:codename_ttportal/companies/bloc/companies_bloc.dart';
-import 'package:codename_ttportal/companies/widget/companies_body.dart';
+import 'package:cdbi/companies/bloc/companies_bloc.dart';
+import 'package:cdbi/companies/widget/companies_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

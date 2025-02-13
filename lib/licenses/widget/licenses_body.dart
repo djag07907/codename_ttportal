@@ -1,10 +1,9 @@
-import 'package:codename_ttportal/common/bloc/base_state.dart';
-import 'package:codename_ttportal/common/loader/loader.dart';
-import 'package:codename_ttportal/licenses/bloc/licenses_bloc.dart';
-
-import 'package:codename_ttportal/licenses/model/company_model.dart';
-import 'package:codename_ttportal/licenses/model/license_model.dart';
-import 'package:codename_ttportal/resources/colors.dart';
+import 'package:cdbi/common/bloc/base_state.dart';
+import 'package:cdbi/common/loader/loader.dart';
+import 'package:cdbi/licenses/bloc/licenses_bloc.dart';
+import 'package:cdbi/licenses/model/company_model.dart';
+import 'package:cdbi/licenses/model/license_model.dart';
+import 'package:cdbi/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

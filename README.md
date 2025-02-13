@@ -1,4 +1,4 @@
-# codename_ttportal
+# cdbi-admin
 
 PBI Dashboard/User Management portal
 

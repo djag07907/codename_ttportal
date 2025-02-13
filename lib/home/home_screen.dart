@@ -1,6 +1,6 @@
-import 'package:codename_ttportal/home/bloc/home_bloc.dart';
-import 'package:codename_ttportal/home/widget/home_body.dart';
-import 'package:codename_ttportal/login/model/user.dart';
+import 'package:cdbi/home/bloc/home_bloc.dart';
+import 'package:cdbi/home/widget/home_body.dart';
+import 'package:cdbi/login/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

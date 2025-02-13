@@ -1,10 +1,10 @@
-import 'package:codename_ttportal/common/loader/loader.dart';
-import 'package:codename_ttportal/repository/respository_constants.dart';
-import 'package:codename_ttportal/resources/colors.dart';
-import 'package:codename_ttportal/user/bloc/user_bloc.dart';
-import 'package:codename_ttportal/user/model/company_model.dart';
-import 'package:codename_ttportal/user/model/user_model.dart';
-import 'package:codename_ttportal/user/service/user_service.dart';
+import 'package:cdbi/common/loader/loader.dart';
+import 'package:cdbi/repository/respository_constants.dart';
+import 'package:cdbi/resources/colors.dart';
+import 'package:cdbi/user/bloc/user_bloc.dart';
+import 'package:cdbi/user/model/company_model.dart';
+import 'package:cdbi/user/model/user_model.dart';
+import 'package:cdbi/user/service/user_service.dart';
 import 'package:flutter/material.dart';
 
 class UserDialog extends StatefulWidget {

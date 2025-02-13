@@ -1,7 +1,7 @@
-import 'package:codename_ttportal/factory/client_factory.dart';
-import 'package:codename_ttportal/factory/guess_factory.dart';
-import 'package:codename_ttportal/login/model/login_response.dart';
-import 'package:codename_ttportal/resources/api_constants.dart';
+import 'package:cdbi/factory/client_factory.dart';
+import 'package:cdbi/factory/guess_factory.dart';
+import 'package:cdbi/login/model/login_response.dart';
+import 'package:cdbi/resources/api_constants.dart';
 import 'package:dio/dio.dart';
 
 class LoginService {

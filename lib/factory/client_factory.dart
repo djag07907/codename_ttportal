@@ -1,6 +1,6 @@
-import 'package:codename_ttportal/factory/headers_interceptor.dart';
-import 'package:codename_ttportal/factory/unauthorized_interceptor.dart';
-import 'package:codename_ttportal/resources/api_constants.dart';
+import 'package:cdbi/factory/headers_interceptor.dart';
+import 'package:cdbi/factory/unauthorized_interceptor.dart';
+import 'package:cdbi/resources/api_constants.dart';
 import 'package:dio/dio.dart';
 
 final class ClientFactory {

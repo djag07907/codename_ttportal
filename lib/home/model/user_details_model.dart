@@ -1,4 +1,4 @@
-import 'package:codename_ttportal/repository/respository_constants.dart';
+import 'package:cdbi/repository/respository_constants.dart';
 
 class UserDetails {
   final String userName;

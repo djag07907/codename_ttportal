@@ -1,10 +1,10 @@
-import 'package:codename_ttportal/common/bloc/base_bloc.dart';
-import 'package:codename_ttportal/common/bloc/base_state.dart';
-import 'package:codename_ttportal/home/model/dashboard_model.dart';
-import 'package:codename_ttportal/home/model/user_details_model.dart';
-import 'package:codename_ttportal/home/service/home_service.dart';
-import 'package:codename_ttportal/resources/constants.dart';
-import 'package:codename_ttportal/resources/error_codes.dart';
+import 'package:cdbi/common/bloc/base_bloc.dart';
+import 'package:cdbi/common/bloc/base_state.dart';
+import 'package:cdbi/home/model/dashboard_model.dart';
+import 'package:cdbi/home/model/user_details_model.dart';
+import 'package:cdbi/home/service/home_service.dart';
+import 'package:cdbi/resources/constants.dart';
+import 'package:cdbi/resources/error_codes.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

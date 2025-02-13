@@ -1,5 +1,5 @@
-import 'package:codename_ttportal/home/model/dashboard_model.dart';
-import 'package:codename_ttportal/resources/colors.dart';
+import 'package:cdbi/home/model/dashboard_model.dart';
+import 'package:cdbi/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
 import 'dart:ui' as ui;

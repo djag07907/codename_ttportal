@@ -1,4 +1,4 @@
-package com.example.codename_ttportal
+package com.example.cdbi-admin
 
 import io.flutter.embedding.android.FlutterActivity
 

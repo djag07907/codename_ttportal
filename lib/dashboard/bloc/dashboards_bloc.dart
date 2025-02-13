@@ -1,7 +1,7 @@
-import 'package:codename_ttportal/common/bloc/base_bloc.dart';
-import 'package:codename_ttportal/common/bloc/base_state.dart';
-import 'package:codename_ttportal/dashboard/model/dashboard_model.dart';
-import 'package:codename_ttportal/dashboard/service/dashboards_service.dart';
+import 'package:cdbi/common/bloc/base_bloc.dart';
+import 'package:cdbi/common/bloc/base_state.dart';
+import 'package:cdbi/dashboard/model/dashboard_model.dart';
+import 'package:cdbi/dashboard/service/dashboards_service.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

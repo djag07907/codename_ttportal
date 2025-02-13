@@ -1,10 +1,10 @@
 import 'dart:io' show Platform;
-import 'package:codename_ttportal/resources/colors.dart';
+import 'package:cdbi/resources/colors.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:codename_ttportal/routes/landing_constants.dart';
-import 'package:codename_ttportal/routes/landing_routes.dart';
-import 'package:codename_ttportal/login/login_screen.dart';
+import 'package:cdbi/routes/landing_constants.dart';
+import 'package:cdbi/routes/landing_routes.dart';
+import 'package:cdbi/login/login_screen.dart';
 import 'package:internationalization/internationalization.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'TT Portal',
+      title: 'Control Dashboard',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: white,

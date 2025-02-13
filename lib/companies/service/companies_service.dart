@@ -1,7 +1,7 @@
-import 'package:codename_ttportal/companies/model/company_model.dart';
-import 'package:codename_ttportal/factory/client_factory.dart';
-import 'package:codename_ttportal/factory/guess_factory.dart';
-import 'package:codename_ttportal/resources/api_constants.dart';
+import 'package:cdbi/companies/model/company_model.dart';
+import 'package:cdbi/factory/client_factory.dart';
+import 'package:cdbi/factory/guess_factory.dart';
+import 'package:cdbi/resources/api_constants.dart';
 import 'package:dio/dio.dart';
 
 class CompanyService {

@@ -1,5 +1,5 @@
-import 'package:codename_ttportal/common/baseResponse/base_response.dart';
-import 'package:codename_ttportal/login/model/login_data.dart';
+import 'package:cdbi/common/baseResponse/base_response.dart';
+import 'package:cdbi/login/model/login_data.dart';
 
 final class LoginResponse extends BaseResponse {
   final LoginData data;

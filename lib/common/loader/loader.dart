@@ -1,4 +1,4 @@
-import 'package:codename_ttportal/resources/colors.dart';
+import 'package:cdbi/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 

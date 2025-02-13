@@ -1,13 +1,13 @@
-import 'package:codename_ttportal/common/bloc/base_state.dart';
-import 'package:codename_ttportal/common/loader/loader.dart';
-import 'package:codename_ttportal/common/utils/token_decryptor.dart';
-import 'package:codename_ttportal/home/bloc/home_bloc.dart';
-import 'package:codename_ttportal/repository/user_repository.dart';
-import 'package:codename_ttportal/resources/colors.dart';
+import 'package:cdbi/common/bloc/base_state.dart';
+import 'package:cdbi/common/loader/loader.dart';
+import 'package:cdbi/common/utils/token_decryptor.dart';
+import 'package:cdbi/home/bloc/home_bloc.dart';
+import 'package:cdbi/repository/user_repository.dart';
+import 'package:cdbi/resources/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:codename_ttportal/login/model/user.dart';
-import 'package:codename_ttportal/common/cards/dashboard_card.dart';
-import 'package:codename_ttportal/login/login_screen.dart';
+import 'package:cdbi/login/model/user.dart';
+import 'package:cdbi/common/cards/dashboard_card.dart';
+import 'package:cdbi/login/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeBody extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:codename_ttportal/user/model/user_model.dart';
+import 'package:cdbi/user/model/user_model.dart';
 
 class UsersData {
   final int totalItems;

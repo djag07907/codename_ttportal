@@ -1,4 +1,4 @@
-import 'package:codename_ttportal/admin/widget/admin_body.dart';
+import 'package:cdbi/admin/widget/admin_body.dart';
 import 'package:flutter/material.dart';
 
 class AdminScreen extends StatelessWidget {
