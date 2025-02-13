@@ -305,7 +305,7 @@ class __CompaniesDialogState extends State<_CompaniesDialog> {
           child: const Text(
             'Cancel',
             style: TextStyle(
-              color: Colors.grey,
+              color: gray,
             ),
           ),
         ),

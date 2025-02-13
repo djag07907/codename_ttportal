@@ -13,6 +13,17 @@ class Company {
     required this.dashboardLink,
   });
 
+  factory Company.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    return Company(
+      companyName: (json['companyName']) ?? (json['name']) ?? emptyString,
+      dashboardName: (json['dashboardName']) ?? emptyString,
+      dashboardCode: (json['dashboardCode']) ?? emptyString,
+      dashboardLink: (json['dashboardLink']) ?? emptyString,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'companyName': companyName,
@@ -20,16 +31,5 @@ class Company {
       'dashboardCode': dashboardCode,
       'dashboardLink': dashboardLink,
     };
-  }
-
-  factory Company.fromJson(Map<String, dynamic> json) {
-    return Company(
-      companyName: (json['companyName'] as String?) ??
-          (json['name'] as String?) ??
-          emptyString,
-      dashboardName: (json['dashboardName'] as String?) ?? emptyString,
-      dashboardCode: (json['dashboardCode'] as String?) ?? emptyString,
-      dashboardLink: (json['dashboardLink'] as String?) ?? emptyString,
-    );
   }
 }
