@@ -4,6 +4,7 @@ import 'package:codename_ttportal/common/loader/loader.dart';
 import 'package:codename_ttportal/home/home_screen.dart';
 import 'package:codename_ttportal/login/bloc/login_bloc.dart';
 import 'package:codename_ttportal/resources/colors.dart';
+import 'package:codename_ttportal/resources/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -66,7 +67,7 @@ class _LoginBodyState extends State<LoginBody> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/logo.png',
+                    '${imagePath}logo.png',
                     height: 80,
                   ),
                   const SizedBox(height: 32),

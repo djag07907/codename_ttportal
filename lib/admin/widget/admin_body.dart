@@ -2,6 +2,7 @@ import 'package:codename_ttportal/companies/companies_screen.dart';
 import 'package:codename_ttportal/licenses/licenses_screen.dart';
 import 'package:codename_ttportal/repository/user_repository.dart';
 import 'package:codename_ttportal/resources/colors.dart';
+import 'package:codename_ttportal/resources/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:codename_ttportal/dashboard/dashboard_screen.dart';
 import 'package:codename_ttportal/user/user_screen.dart';
@@ -44,7 +45,7 @@ class _AdminBodyState extends State<AdminBody> {
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Image.asset(
-                      'assets/logo.png',
+                      '${imagePath}logo.png',
                       height: 80,
                     ),
                   ),
